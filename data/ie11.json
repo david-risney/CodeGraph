@@ -1,0 +1,153 @@
+﻿{
+"id": "ie11",
+"types": [
+	{"id": "DataURL", "names": ["Data URL"], "isa": "url"},
+	{"id": "BlobURL", "names": ["Blob URL"], "isa": "url"},
+	{"id": "url", "names": ["URL"], "isa": "string"},
+	{"id": "File", "names": ["File"], "isa": "Blob"},
+	{"id": "Blob", "names": ["Blob"], "isa": "MSStream"}
+],
+"functions": [
+{
+"id": "FileIsaBlob",
+"names": ["File isa Blob"],
+"templates": [{
+"code": "var $blob = $file;\n$next",
+"in": [{"type": "File", "name": "file"}],
+"out": [{"type": "Blob", "name": "blob"}]
+}]
+},
+{
+"id": "BlobIsaMSStream",
+"names": ["Blob isa MSStream"],
+"templates": [{
+"code": "var $stream = $blob;\n$next",
+"in": [{"type": "Blob", "name": "blob"}],
+"out": [{"type": "MSStream", "name": "stream"}]
+}]
+},
+{
+"id": "DataUrlIsaUrl",
+"names": ["DataUrl isa url"],
+"templates": [{
+"code": "var $url = $dataUrl;\n$next",
+"in": [{"type": "DataUrl", "name": "dataUrl"}],
+"out": [{"type": "url", "name": "url"}]
+}]
+},
+{
+"id": "BlobUrlIsaUrl",
+"names": ["BlobUrl isa url"],
+"templates": [{
+"code": "var $url = $blobUrl;\n$next",
+"in": [{"type": "BlobUrl", "name": "blobUrl"}],
+"out": [{"type": "url", "name": "url"}]
+}]
+},
+{
+"id": "UrlIsaString",
+"names": ["url isa string"],
+"templates": [{
+"code": "var $str = $url;\n$next",
+"in": [{"type": "url", "name": "url"}],
+"out": [{"type": "string", "name": "str"}]
+}]
+},
+{
+"id": "MSStreamReader.readAsArrayBuffer",
+"names": ["readAsArrayBuffer", "MSStreamReader.readAsArrayBuffer"],
+"templates": [{
+"in": [{"type": "MSStream", "name": "stream"}],
+"out": [{"type": "ArrayBuffer", "name": "arrayBuffer"}],
+"code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $arrayBuffer = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsArrayBuffer($stream);\n"
+}]},
+{
+"id": "MSStreamReader.readAsBlob",
+"names": ["readAsBlob", "MSStreamReader.readAsBlob"],
+"templates": [{
+"in": [{"type": "MSStream", "name": "stream"}],
+"out": [{"type": "Blob", "name": "blob"}],
+"code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $blob = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsArrayBuffer($stream);\n"
+}]},
+{
+"id": "MSStreamReader.readAsDataURL",
+"names": ["readAsDataURL", "MSStreamReader.readAsDataURL"],
+"templates": [{
+"in": [{"type": "MSStream", "name": "stream"}],
+"out": [{"type": "DataUrl", "name": "dataUrl"}],
+"code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $dataUrl = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsDataURL($stream);\n"
+}]},
+{
+"id": "MSStreamReader.readAsText",
+"names": ["readAsText", "MSStreamReader.readAsText"],
+"templates": [{
+"in": [{"type": "MSStream", "name": "stream"}],
+"out": [{"type": "string", "name": "str"}],
+"code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $str = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsText($stream);\n"
+}]}, 
+{
+"id": "FileReader.readAsArrayBuffer",
+"names": ["readAsArrayBuffer", "FileReader.readAsArrayBuffer"],
+"templates": [{
+"in": [{"type": "Blob", "name": "blob"}],
+"out": [{"type": "ArrayBuffer", "name": "arrayBuffer"}],
+"code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $arrayBuffer = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsArrayBuffer($blob);\n"
+}]},
+{
+"id": "FileReader.readAsDataURL",
+"names": ["readAsDataURL", "FileReader.readAsDataURL"],
+"templates": [{
+"in": [{"type": "Blob", "name": "blob"}],
+"out": [{"type": "DataUrl", "name": "dataUrl"}],
+"code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $dataUrl = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsDataURL($blob);\n"
+}]},
+{
+"id": "FileReader.readAsText",
+"names": ["readAsText", "FileReader.readAsText"],
+"templates": [{
+"in": [{"type": "Blob", "name": "blob"}],
+"out": [{"type": "string", "name": "str"}],
+"code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $str = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsText($blob);\n"
+}]},
+{
+"id": "createElementImg",
+"names": ["Create image element", "document.createElement(\"img\")", "new Image()"],
+"templates": [{
+"in": [{"type": "url", "name": "imageUrl"}],
+"out": [{"type": "HTMLImageElement", "name": "image"}],
+"code": "var $image = document.createElement(\"img\");\nimage.addEventListener(\"load\", function() {\n\tdocument.body.appendChild(image);\n\t$next\n});\nimage.addEventListener(\"error\", function() { console.error(\"image load error\"); });\nimage.src = $imageUrl;\n"
+}]},
+{
+		"id": "createObjectURL",
+		"names": ["createObjectURL", "window.URL.createObjectURL"],
+		"templates": [{
+				"in": [{"type": "MSStream", "name": "blob"}],
+				"out": [{"type": "BlobUrl", "name": "blobUrl"}],
+				"code": "var $blobUrl = URL.createObjectURL($blob);\n$next"
+			}]
+	},{
+		"id": "revokeObjectURL",
+		"names": ["revokeObjectURL", "window.URL.revokeObjectURL"],
+		"templates": [{
+				"in": [{"type": "BlobUrl", "name": "blobUrl"}],
+				"out": [],
+				"code": "URL.revokeObjectURL($blobUrl);\n$next"
+			}]
+	},{
+		"id": "msDetachStream",
+		"names": ["msDetachStream", "MSStream.msDetachStream"],
+		"templates": [{
+			"in": [{"type": "MSStream", "name": "blob"}],
+			"out": [{"type": "Windows.Storage.Streams.IInputStream", "name": "stream"}],
+			"code": "var $stream = $blob.msDetachStream();\n$next"
+		}]
+	},{
+		"id": "createStreamFromInputStream",
+		"names": ["createStreamFromInputStream", "window.MSApp.createStreamFromInputStream"],
+		"templates": [{
+			"in": [{"type": "Windows.Storage.Streams.IInputStream", "name": "winrtStream"}],
+			"out": [{"type": "MSStream", "name": "stream"}],
+			"code": "var $stream = MSApp.createStreamFromInputStream(\"image/png\", $winrtStream);\n$next"
+		}]
+	}]
+}

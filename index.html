@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html class="borderless fill">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Code Graph</title>
+
+    <link href="winjs/css/ui-light.css" rel="stylesheet" />
+    <link href="css/default.css" rel="stylesheet" />
+    <link href="css/highlight/github.css" rel="stylesheet" />
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.css" rel="stylesheet" />
+
+    <script src="winjs/js/base.js"></script>
+    <script src="winjs/js/ui.js"></script>
+    <script src="js/d3.js"></script>
+    <script src="js/eventTarget.js"></script>
+    <script src="js/promiseJoinWithProgress.js"></script>
+    <script src="js/deferral.js"></script>
+    <script src="js/objectToHtml.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/codeStore.js"></script>
+    <script src="js/codeVisualizer.js"></script>
+    <script src="js/pathLister.js"></script>
+    <script src="js/codeGenerator.js"></script>
+    <script src="js/controls.js"></script>
+    <script src="js/highlight.pack.js"></script>
+    <script src="js/default.js"></script>
+</head>
+<body class="borderless fill">
+    <header class="container">
+        <h1>Code Graph</h1>
+    </header>
+    <br />
+    <section class="container">
+        <div style="width:40%; display: inline-block;">
+            <input type="text" id="source" list="validMethodsAndTypes" placeholder="Source method or type" />
+            <input type="text" id="destination" list="validMethodsAndTypes" placeholder="Destination method or type" />
+            <datalist id="validMethodsAndTypes" style="display: none;"><!-- option value="value" --></datalist>
+        </div>
+        <div id="pathList" style="height: 160px; width:40%; display: inline-block; border: 1px black solid;" class="flipView" data-win-control="WinJS.UI.FlipView" data-win-options="{ itemDataSource: WinJSGlobalCodeStore.bindingList.dataSource, itemTemplate: WinJSGlobalPathLister.itemTemplate }"></div>
+        <div id="output" style="vertical-align: top; width: 40%; display: inline-block; "></div>
+        <div id="graph" style="width: 40%; display: inline-block; "></div>
+    </section>
+    <br />
+    <footer class="container">
+        Code Graph is made up of the following:
+        <ul>
+            <li><a href="https://github.com/david-risney/CodeGraph/">CodeGraph</a> (<a href="LICENSE">license</a>)</li>
+            <li><a href="https://github.com/winjs/winjs">WinJS</a> (<a href="https://raw.githubusercontent.com/winjs/winjs/master/License.txt">license</a>)</li>
+            <li><a href="http://getbootstrap.com/">Bootstrap</a> (<a href="https://raw.githubusercontent.com/twbs/bootstrap/master/LICENSE">license</a>)</li>
+            <li><a href="http://subtlepatterns.com/">Subtle Patterns</a> ( <a href="http://creativecommons.org/licenses/by-sa/3.0/">license</a>)</li>
+            <li><a href="http://d3js.org/">D3.js</a> (<a href="https://raw.githubusercontent.com/mbostock/d3/master/LICENSE">license</a>)</li>
+            <li><a href="http://highlightjs.org/">highlight.js</a> (<a href="https://raw.githubusercontent.com/isagalaev/highlight.js/master/LICENSE">license</a>)</li>
+        </ul>
+    </footer>
+</body>
+</html>

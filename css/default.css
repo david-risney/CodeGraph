@@ -1,0 +1,70 @@
+﻿html {
+	overflow: auto;
+}
+
+body {
+    background: url("../images/greyzz_@2X.png");
+}
+
+body > * {
+    background-color: rgba(255, 255, 255, 50);
+}
+
+.fill {
+    width: 100%;
+    height: 100%;
+}
+
+.borderless {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.node text.selected {
+    fill: black;
+    fill-opacity: 1;
+    font-size: 8pt;
+}
+
+.node text.unselected {
+    fill: gray;
+    fill-opacity: 0.5;
+    font-size: 6pt;
+}
+
+.node circle.selected {
+    fill-opacity: 1;
+}
+
+.node circle.unselected {
+    fill-opacity: 0.5;
+}
+
+.link {
+    fill: none;
+}
+
+.link.marker.selected {
+    fill: #bbb;
+}
+
+.link.marker.unselected {
+    fill: #999;
+}
+
+.link.selected {
+    stroke: #999;
+    stroke-width: 3;
+    marker-end: url(#TriangleSelected);
+}
+
+.link.unselected {
+    stroke: #bbb;
+    stroke-width: 2;
+    marker-end: url(#TriangleUnselected);
+}
