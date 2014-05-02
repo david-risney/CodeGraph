@@ -1,0 +1,88 @@
+﻿{
+"id": "common",
+"functions": [
+{
+"id": "FileIsaBlob",
+"names": ["File isa Blob"],
+"templates": [{
+"code": "var $blob = $file;\n$next",
+"in": [{"type": "File", "name": "file"}],
+"out": [{"type": "Blob", "name": "blob"}]
+}]
+},
+{
+"id": "DataUrlIsaUrl",
+"names": ["DataUrl isa url"],
+"templates": [{
+"code": "var $url = $dataUrl;\n$next",
+"in": [{"type": "DataUrl", "name": "dataUrl"}],
+"out": [{"type": "url", "name": "url"}]
+}]
+},
+{
+"id": "BlobUrlIsaUrl",
+"names": ["BlobUrl isa url"],
+"templates": [{
+"code": "var $url = $blobUrl;\n$next",
+"in": [{"type": "BlobUrl", "name": "blobUrl"}],
+"out": [{"type": "url", "name": "url"}]
+}]
+},
+{
+"id": "UrlIsaString",
+"names": ["url isa string"],
+"templates": [{
+"code": "var $str = $url;\n$next",
+"in": [{"type": "url", "name": "url"}],
+"out": [{"type": "string", "name": "str"}]
+}]
+},
+{
+"id": "FileReader.readAsArrayBuffer",
+"names": ["readAsArrayBuffer", "FileReader.readAsArrayBuffer"],
+"templates": [{
+"in": [{"type": "Blob", "name": "blob"}],
+"out": [{"type": "ArrayBuffer", "name": "arrayBuffer"}],
+"code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $arrayBuffer = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsArrayBuffer($blob);\n"
+}]},
+{
+"id": "FileReader.readAsDataURL",
+"names": ["readAsDataURL", "FileReader.readAsDataURL"],
+"templates": [{
+"in": [{"type": "Blob", "name": "blob"}],
+"out": [{"type": "DataUrl", "name": "dataUrl"}],
+"code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $dataUrl = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsDataURL($blob);\n"
+}]},
+{
+"id": "FileReader.readAsText",
+"names": ["readAsText", "FileReader.readAsText"],
+"templates": [{
+"in": [{"type": "Blob", "name": "blob"}],
+"out": [{"type": "string", "name": "str"}],
+"code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $str = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsText($blob);\n"
+}]},
+{
+"id": "createElementImg",
+"names": ["Create image element", "document.createElement(\"img\")", "new Image()"],
+"templates": [{
+"in": [{"type": "url", "name": "imageUrl"}],
+"out": [{"type": "HTMLImageElement", "name": "image"}],
+"code": "var $image = document.createElement(\"img\");\nimage.addEventListener(\"load\", function() {\n\tdocument.body.appendChild(image);\n\t$next\n});\nimage.addEventListener(\"error\", function() { console.error(\"image load error\"); });\nimage.src = $imageUrl;\n"
+}]},
+{
+"id": "createObjectURL",
+"names": ["createObjectURL", "window.URL.createObjectURL"],
+"templates": [{
+"in": [{"type": "MSStream", "name": "blob"}],
+"out": [{"type": "BlobUrl", "name": "blobUrl"}],
+"code": "var $blobUrl = URL.createObjectURL($blob);\n$next"
+}]},
+{
+"id": "revokeObjectURL",
+"names": ["revokeObjectURL", "window.URL.revokeObjectURL"],
+"templates": [{
+"in": [{"type": "BlobUrl", "name": "blobUrl"}],
+"out": [],
+"code": "URL.revokeObjectURL($blobUrl);\n$next"
+}]}
+]}

@@ -1,0 +1,12 @@
+﻿{
+"id": "win8.1-winrtjs",
+"functions": [
+{
+"id": "RandomAccessStreamIsaInputStream",
+"names": ["IRandomAccessStream isa IInputStream"],
+"templates": [{
+"code": "var $winrtInputStream = $winrtRandomAccessStream;\n$next",
+"in": [{"type": "Windows.Storage.Streams.IRandomAccessStream", "name": "winrtRandomAccessStream"}],
+"out": [{"type": "Windows.Storage.Streams.IInputStream", "name": "winrtInputStream"}]
+}]}
+]}

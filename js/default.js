@@ -13,7 +13,7 @@
             controls = new Controls();
 
         WinJS.UI.processAll().then(function() {
-            return codeStore.initializeAsync(["data/ie11.json"]);
+            return codeStore.initializeAsync(["data/common.json", "data/ie11.json", "data/win8.1-winrtjs.json"]);
         }).then(function () {
             return codeVisualizer.initializeAsync(codeStore, "graph");
         }).then(function () {
