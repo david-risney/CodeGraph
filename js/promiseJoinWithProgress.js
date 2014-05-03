@@ -11,7 +11,7 @@
 
     promises.forEach(function (promise) {
         promise.then(undefined, undefined, function (progress) { deferral.notify(progress); });
-    })
+    });
 
     return deferral.promise;
 };

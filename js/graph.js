@@ -15,15 +15,15 @@
                 that = this;
             this.addLink = function (link) {
                 links.push(link);
-            }
+            };
             // Links that point into this node.
             this.getInLinks = function () {
                 return links.filter(function (link) { return link.inNode === that; });
-            }
+            };
             // Links that leave out of this node.
             this.getOutLinks = function () {
                 return links.filter(function (link) { return link.outNode === that; });
-            }
+            };
             this.data = data;
             this.id = id;
         },
@@ -59,11 +59,11 @@
                 paths.push(path);
                 paths = paths.sort(function (pathLeft, pathRight) { return -(pathLeft.getTotalScore() - pathRight.getTotalScore()); });
                 return path;
-            }
-            this.isEmpty = function () { return !paths.length; }
+            };
+            this.isEmpty = function () { return !paths.length; };
             this.removeNext = function () {
                 return paths.pop();
-            }
+            };
         },
         findPathsInternalAsync = function (PathsContainerCtor, nodeStart, isEndNode, options) {
             var paths = new PathsContainerCtor(),
@@ -185,7 +185,7 @@
         return PromiseJoinWithProgress(product(startNodes, endNodes).map(function (args) {
             return function () {
                 return findPathsInternalAsync(SortedPathList, args[0], function (node) { return node === args[1]; });
-            }
+            };
         })).then(function (arrOfArrOfSolution) {
             return arrOfArrOfSolution.reduce(function (total, next) { return total.concat(next); }, []);
         });

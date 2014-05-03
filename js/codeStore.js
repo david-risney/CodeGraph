@@ -1,4 +1,17 @@
 ﻿var CodeStore = (function () {
+    var SelectedValue = function() {
+        var eventTarget = new EventTarget(this, ["indexChanged"]),
+            selectedIndex = -1;
+        this.setIndex = function (newSelectedIndex) {
+            var oldSelectedIndex = selectedIndex;
+            selectedIndex = newSelectedIndex;
+            eventTarget.dispatchIndexChangedEvent(this);
+        };
+        this.getIndex = function () {
+            return selectedIndex;
+        };
+    };
+
     WinJS.Namespace.define("WinJSGlobalCodeStore", {
         bindingList: new WinJS.Binding.List([])
     });
@@ -6,18 +19,7 @@
     return function() {
         var inputData = {},
             solutions = WinJSGlobalCodeStore.bindingList,
-            selectedSolution = new function SelectedValue() {
-                var eventTarget = new EventTarget(this, ["indexChanged"]),
-                    selectedIndex = -1;
-                this.setIndex = function (newSelectedIndex) {
-                    var oldSelectedIndex = selectedIndex;
-                    selectedIndex = newSelectedIndex;
-                    eventTarget.dispatchIndexChangedEvent(this);
-                };
-                this.getIndex = function () {
-                    return selectedIndex;
-                };
-            },
+            selectedSolution = new SelectedValue(),
             visualGraphState = new Graph(),
             dataGraphState = new Graph(),
             toProperties = function (object) {

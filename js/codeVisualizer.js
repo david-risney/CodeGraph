@@ -88,9 +88,9 @@
 
         function onTick() {
             link.attr("d", function (d) {
-                return "M" + d[0].x + "," + d[0].y
-                    + "S" + d[1].x + "," + d[1].y
-                    + " " + d[2].x + "," + d[2].y;
+                return "M" + d[0].x + "," + d[0].y +
+                    "S" + d[1].x + "," + d[1].y +
+                    " " + d[2].x + "," + d[2].y;
             });
             node.attr("transform", function (d) {
                 return "translate(" + d.x + "," + d.y + ")";
@@ -109,8 +109,7 @@
                 .attr("class", function (d3Nodes) {
                     return d3Nodes[0].data.data.selected && d3Nodes[d3Nodes.length - 1].data.data.selected ? "link selected" : "link unselected";
                 });
-            //.attr("stroke-width", function (d3Node) { return d3Node.data.data.selected ? "2" : "1"; })
-        };
+        }
 
         codeStore.getGraphs().selectedSolution.addEventListener("indexChanged", function () {
             codeStore.getGraphs().visualGraph.getNodes().forEach(function (node) {

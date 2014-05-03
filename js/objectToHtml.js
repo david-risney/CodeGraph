@@ -37,10 +37,10 @@ var ObjectToHtml = (function () {
                 property.name !== "e" &&
                 property.name !== "t";
             })[0],
-            contentProperty = elementState["c"] || [],
-            styleProperty = elementState["s"],
-            eventProperty = elementState["e"],
-            textProperty = elementState["t"],
+            contentProperty = elementState.c || [],
+            styleProperty = elementState.s,
+            eventProperty = elementState.e,
+            textProperty = elementState.t,
             tagName = nameProperty.name,
             attributesMap = nameProperty.value || {},
             element;

@@ -38,7 +38,7 @@
             });
             data.out.map(function (outVariable) {
                 replacements.push({ oldName: outVariable.name, newName: outVariable.name });
-            })
+            });
             existingVariables = existingVariables.concat(newVariables);
 
             codeFilled = replacements.sort(function (left, right) { return right.oldName.length - left.oldName.length; }).
@@ -55,7 +55,7 @@
         parent.innerHTML = "";
         parent.appendChild(ObjectToHtml({ pre: {}, c: [{ code: {}, t: code }] }));
         hljs.highlightBlock(parent);
-    };
+    }
 
     this.initializeAsync = function (codeStoreIn, listParentName) {
         codeStore = codeStoreIn;
