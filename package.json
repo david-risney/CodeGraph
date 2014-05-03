@@ -4,6 +4,7 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.6.3",
-    "qunitjs": "^1.14.0"
+    "qunitjs": "^1.14.0",
+    "grunt-contrib-qunit": "^0.4.0"
   }
 }

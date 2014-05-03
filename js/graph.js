@@ -43,8 +43,8 @@
             };
             this.getLinks = function () { return links; };
             this.getNodes = function () { return [firstNode].concat(links.map(function (link) { return link.inNode; })); };
-            this.getTotalScore = function () {
-                return links.reduce(function (total, link) { return total + link.score ? link.score : 0; }, 0);
+            this.getTotalCost = function () {
+                return links.reduce(function (total, link) { return total + (link.cost || 0); }, 0);
             };
             this.getFirstNode = function () {
                 return firstNode;
@@ -57,7 +57,7 @@
             var paths = [];
             this.add = function (path) {
                 paths.push(path);
-                paths = paths.sort(function (pathLeft, pathRight) { return -(pathLeft.getTotalScore() - pathRight.getTotalScore()); });
+                paths = paths.sort(function (pathLeft, pathRight) { return -(pathLeft.getTotalCost() - pathRight.getTotalCost()); });
                 return path;
             };
             this.isEmpty = function () { return !paths.length; };
