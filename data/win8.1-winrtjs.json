@@ -4,9 +4,10 @@
 {
 "id": "RandomAccessStreamIsaInputStream",
 "names": ["IRandomAccessStream isa IInputStream"],
+"cost": 0,
 "templates": [{
-"code": "var $winrtInputStream = $winrtRandomAccessStream;\n$next",
+"code": "$next",
 "in": [{"type": "Windows.Storage.Streams.IRandomAccessStream", "name": "winrtRandomAccessStream"}],
-"out": [{"type": "Windows.Storage.Streams.IInputStream", "name": "winrtInputStream"}]
+"out": [{"type": "Windows.Storage.Streams.IInputStream", "name": "winrtRandomAccessStream"}]
 }]}
 ]}

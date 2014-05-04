@@ -66,7 +66,8 @@
 
                 // Add links between input types and functions and functions and output types.
                 allFunctions.forEach(function (fnDef) {
-                    var visualFnId = fnDef.id;
+                    var visualFnId = fnDef.id,
+                        outTypesCost = fnDef.cost !== undefined ? fnDef.cost : 1;
 
                     fnDef.templates.forEach(function (template, idx, templates) {
                         var dataFnId = fnDef.id + (templates.length > 1 ? + "-" + idx : "");
@@ -79,8 +80,8 @@
                             visualNode.data.dataNodes.push(dataNode);
                         });
                         template.out.forEach(function (outType) {
-                            var dataNode = dataGraphState.addLinkByNodeId(outType.type, dataFnId, 1, { data: undefined, group: 0, visualNode: undefined }),
-                                visualNode = visualGraphState.addLinkByNodeId(outType.type, visualFnId, 1, { data: undefined, group: 0, dataNodes: [] });
+                            var dataNode = dataGraphState.addLinkByNodeId(outType.type, dataFnId, outTypesCost, { data: undefined, group: 0, visualNode: undefined }),
+                                visualNode = visualGraphState.addLinkByNodeId(outType.type, visualFnId, outTypesCost, { data: undefined, group: 0, dataNodes: [] });
 
                             dataNode.data.visualNode = visualNode;
                             visualNode.data.dataNodes.push(dataNode);

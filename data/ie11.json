@@ -4,10 +4,11 @@
 {
 "id": "BlobIsaMSStream",
 "names": ["Blob isa MSStream"],
+"cost": 0,
 "templates": [{
-"code": "var $stream = $blob;\n$next",
+"code": "$next",
 "in": [{"type": "Blob", "name": "blob"}],
-"out": [{"type": "MSStream", "name": "stream"}]
+"out": [{"type": "MSStream", "name": "blob"}]
 }]
 },
 {
@@ -29,6 +30,7 @@
 {
 "id": "MSStreamReader.readAsDataURL",
 "names": ["readAsDataURL", "MSStreamReader.readAsDataURL"],
+"cost": 2,
 "templates": [{
 "in": [{"type": "MSStream", "name": "stream"}],
 "out": [{"type": "DataUrl", "name": "dataUrl"}],

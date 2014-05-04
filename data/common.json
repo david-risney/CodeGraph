@@ -4,37 +4,41 @@
 {
 "id": "FileIsaBlob",
 "names": ["File isa Blob"],
+"cost": 0,
 "templates": [{
-"code": "var $blob = $file;\n$next",
+"code": "$next",
 "in": [{"type": "File", "name": "file"}],
-"out": [{"type": "Blob", "name": "blob"}]
+"out": [{"type": "Blob", "name": "file"}]
 }]
 },
 {
 "id": "DataUrlIsaUrl",
 "names": ["DataUrl isa url"],
+"cost": 0,
 "templates": [{
-"code": "var $url = $dataUrl;\n$next",
+"code": "$next",
 "in": [{"type": "DataUrl", "name": "dataUrl"}],
-"out": [{"type": "url", "name": "url"}]
+"out": [{"type": "url", "name": "dataUrl"}]
 }]
 },
 {
 "id": "BlobUrlIsaUrl",
 "names": ["BlobUrl isa url"],
+"cost": 0,
 "templates": [{
-"code": "var $url = $blobUrl;\n$next",
+"code": "$next",
 "in": [{"type": "BlobUrl", "name": "blobUrl"}],
-"out": [{"type": "url", "name": "url"}]
+"out": [{"type": "url", "name": "blobUrl"}]
 }]
 },
 {
 "id": "UrlIsaString",
 "names": ["url isa string"],
+"cost": 0,
 "templates": [{
-"code": "var $str = $url;\n$next",
+"code": "$next",
 "in": [{"type": "url", "name": "url"}],
-"out": [{"type": "string", "name": "str"}]
+"out": [{"type": "string", "name": "url"}]
 }]
 },
 {
@@ -48,6 +52,7 @@
 {
 "id": "FileReader.readAsDataURL",
 "names": ["readAsDataURL", "FileReader.readAsDataURL"],
+"cost": 2,
 "templates": [{
 "in": [{"type": "Blob", "name": "blob"}],
 "out": [{"type": "DataUrl", "name": "dataUrl"}],

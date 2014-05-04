@@ -37,7 +37,8 @@
                 return newVariable;
             });
             data.out.map(function (outVariable) {
-                replacements.push({ oldName: outVariable.name, newName: outVariable.name });
+                var existingReplacement = replacements.filter(function (entry) { return entry.oldName === outVariable.name; })[0];
+                replacements.push(existingReplacement || { oldName: outVariable.name, newName: outVariable.name });
             });
             existingVariables = existingVariables.concat(newVariables);
 
