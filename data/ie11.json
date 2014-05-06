@@ -13,6 +13,7 @@
 },
 {
 "id": "MSStreamReader.readAsArrayBuffer",
+"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh453234.aspx",
 "names": ["readAsArrayBuffer", "MSStreamReader.readAsArrayBuffer"],
 "templates": [{
 "in": [{"type": "MSStream", "name": "stream"}],
@@ -21,6 +22,7 @@
 }]},
 {
 "id": "MSStreamReader.readAsBlob",
+"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh441166.aspx",
 "names": ["readAsBlob", "MSStreamReader.readAsBlob"],
 "templates": [{
 "in": [{"type": "MSStream", "name": "stream"}],
@@ -29,6 +31,7 @@
 }]},
 {
 "id": "MSStreamReader.readAsDataURL",
+"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh972609.aspx",
 "names": ["readAsDataURL", "MSStreamReader.readAsDataURL"],
 "cost": 2,
 "templates": [{
@@ -38,6 +41,7 @@
 }]},
 {
 "id": "MSStreamReader.readAsText",
+"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh453241.aspx",
 "names": ["readAsText", "MSStreamReader.readAsText"],
 "templates": [{
 "in": [{"type": "MSStream", "name": "stream"}],
@@ -46,6 +50,7 @@
 }]}, 
 {
 "id": "msDetachStream",
+"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/dn251980.aspx",
 "names": ["msDetachStream", "MSStream.msDetachStream"],
 "templates": [{
 "in": [{"type": "MSStream", "name": "blob"}],
@@ -54,6 +59,7 @@
 }]},
 {
 "id": "createStreamFromInputStream",
+"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh767330.aspx",
 "names": ["createStreamFromInputStream", "window.MSApp.createStreamFromInputStream"],
 "templates": [{
 "in": [{"type": "Windows.Storage.Streams.IInputStream", "name": "winrtStream"}],
@@ -62,6 +68,7 @@
 }]},
 {
 "id": "createBlobFromRandomAccessStream",
+"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh767329.aspx",
 "names": ["createBlobFromRandomAccessStream", "window.MSApp.createBlobFromRandomAccessStream"],
 "templates": [{
 "in": [{"type": "Windows.Storage.Streams.IRandomAccessStream", "name": "winrtStream"}],
@@ -70,6 +77,7 @@
 }]},
 {
 "id": "createFileFromStorageFile",
+"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh831249.aspx",
 "names": ["createFileFromStorageFile", "window.MSApp.createFileFromStorageFile"],
 "templates": [{
 "in": [{"type": "Windows.Storage.StorageFile", "name": "winrtStorageFile"}],

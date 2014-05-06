@@ -43,6 +43,7 @@
 },
 {
 "id": "FileReader.readAsArrayBuffer",
+"doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsArrayBuffer",
 "names": ["readAsArrayBuffer", "FileReader.readAsArrayBuffer"],
 "templates": [{
 "in": [{"type": "Blob", "name": "blob"}],
@@ -51,6 +52,7 @@
 }]},
 {
 "id": "FileReader.readAsDataURL",
+"doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsDataURL",
 "names": ["readAsDataURL", "FileReader.readAsDataURL"],
 "cost": 2,
 "templates": [{
@@ -60,6 +62,7 @@
 }]},
 {
 "id": "FileReader.readAsText",
+"doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsText"
 "names": ["readAsText", "FileReader.readAsText"],
 "templates": [{
 "in": [{"type": "Blob", "name": "blob"}],
@@ -76,6 +79,7 @@
 }]},
 {
 "id": "createObjectURL",
+"doc": "http://docs.webplatform.org/wiki/apis/file/URL/createObjectURL",
 "names": ["createObjectURL", "window.URL.createObjectURL"],
 "templates": [{
 "in": [{"type": "MSStream", "name": "blob"}],
@@ -84,6 +88,7 @@
 }]},
 {
 "id": "revokeObjectURL",
+"doc": "http://docs.webplatform.org/wiki/apis/file/URL/revokeObjectURL",
 "names": ["revokeObjectURL", "window.URL.revokeObjectURL"],
 "templates": [{
 "in": [{"type": "BlobUrl", "name": "blobUrl"}],
