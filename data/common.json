@@ -62,7 +62,7 @@
 }]},
 {
 "id": "FileReader.readAsText",
-"doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsText"
+"doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsText",
 "names": ["readAsText", "FileReader.readAsText"],
 "templates": [{
 "in": [{"type": "Blob", "name": "blob"}],
