@@ -112,12 +112,18 @@
         }
 
         codeStore.getGraphs().selectedSolution.addEventListener("indexChanged", function () {
+            var index = codeStore.getGraphs().selectedSolution.getIndex(),
+                solution;
+
             codeStore.getGraphs().visualGraph.getNodes().forEach(function (node) {
                 node.data.selected = false;
             });
-            codeStore.getGraphs().solutions.getAt(codeStore.getGraphs().selectedSolution.getIndex()).getNodes().forEach(function (node) {
-                node.data.visualNode.data.selected = true;
-            });
+            if (index >= 0 && index < codeStore.getGraphs().solutions.length) {
+                codeStore.getGraphs().solutions.getAt(index).getNodes().forEach(function (node) {
+                    node.data.visualNode.data.selected = true;
+                });
+            }
+            
             onTick();
         });
 

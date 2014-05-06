@@ -7,8 +7,13 @@
             selectedIndex = newSelectedIndex;
             eventTarget.dispatchIndexChangedEvent(this);
         };
-        this.getIndex = function () {
-            return selectedIndex;
+        this.getIndex = function (length) {
+            if (length === undefined) {
+                return selectedIndex;
+            }
+            else {
+                return Math.min(length, selectedIndex - 1);
+            }
         };
     };
 

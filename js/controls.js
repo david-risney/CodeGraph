@@ -33,6 +33,7 @@
 
                 if (startNodeIds && startNodeIds.length && endNodeIds && endNodeIds.length) {
                     var idToNode = codeStore.getGraphs().dataGraph.getNodeById.bind(codeStore.getGraphs().dataGraph);
+                    writeUrlState();
 
                     //codeStore.getGraphs().dataGraph.findShortestPathAsync(startNodeIds.map(idToNode)[0], endNodeIds.map(idToNode)[0]).then(
                     codeStore.getGraphs().dataGraph.findShortestPathsAsync(
@@ -45,6 +46,43 @@
                                 });
                             });
                 }
+            }
+        },
+        readUrlState = function () {
+            var params,
+                val;
+            try {
+                if (document.location && document.location.search) {
+                    params = document.location.search.substr(1).split("&").map(function (param) { return param.split("="); });
+                    params.forEach(function (param) {
+                        switch (param[0].toLowerCase()) {
+                            case "from":
+                                sourceNameElement.value = decodeURIComponent(param[1]);
+                                break;
+                            case "to":
+                                destinationNameElement.value = decodeURIComponent(param[1]);
+                                break;
+                        }
+                    });
+                    normalizeNameControls();
+                }
+            }
+            catch (e) {
+                console.error("Unable to process URI query property: " + e);
+            }
+        },
+        writeUrlState = function () {
+            var selectedIndex = codeStore.getGraphs().selectedSolution.getIndex(),
+                query;
+            if (selectedIndex < 0) {
+                selectedIndex = 0;
+            }
+
+            query = "?from=" + encodeURIComponent(sourceNameElement.value) +
+                "&to=" + encodeURIComponent(destinationNameElement.value);
+
+            if (query !== document.location.search) {
+                history.pushState(null, null, query);
             }
         };
 
@@ -87,5 +125,13 @@
             forEach(function (option) {
                 validMethodsAndTypesElement.appendChild(option);
             });
+
+        readUrlState();
+        window.addEventListener("popstate", function () {
+            readUrlState();
+        });
+        codeStore.getGraphs().selectedSolution.addEventListener("indexChanged", function () {
+            writeUrlState();
+        });
     };
 };

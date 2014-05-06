@@ -7,7 +7,7 @@
             lastInput,
             clone = function(obj) { return JSON.parse(JSON.stringify(obj)); },
             existingVariables = [],
-            frames = path.getNodes().filter(function (node) { return node.data.data.code; }).map(function (node) { return node.data.data; }),
+            frames = path ? path.getNodes().filter(function (node) { return node.data.data.code; }).map(function (node) { return node.data.data; }) : [],
             firstFrame = { code: "", "in": [], out: [] },
             secondFrame = frames.length ? frames[0] : null,
             lastFrame = { code: "// ...", "in": [], out: [] };
@@ -62,7 +62,12 @@
         codeStore = codeStoreIn;
         parent = document.getElementById(listParentName);
         codeStore.getGraphs().selectedSolution.addEventListener("indexChanged", function () {
-            refresh(codeStore.getGraphs().solutions.getAt(codeStore.getGraphs().selectedSolution.getIndex()));
+            var index = codeStore.getGraphs().selectedSolution.getIndex(),
+                solution;
+            if (index < codeStore.getGraphs().solutions.length && index >= 0) {
+                solution = codeStore.getGraphs().solutions.getAt(index);
+            }
+            refresh(solution);
         });
     };
 };
