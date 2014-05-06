@@ -4,6 +4,11 @@ module.exports = function (grunt) {
         jshint: {
             all: ['gruntfile.js', 'js/**/*.js', 'test/src/**/*.js']
         },
+        jsonlint: {
+            all: {
+                src: ['data/**/*.json']
+            }
+        },
         qunit: {
             all: {
                 options: {
@@ -26,6 +31,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-jsonlint');
 
-    grunt.registerTask('default', ['jshint', 'connect', 'qunit']);
+    grunt.registerTask('default', ['jsonlint', 'jshint']);
+    grunt.registerTask('test', ['connect', 'qunit']);
 };
