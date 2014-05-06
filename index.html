@@ -34,14 +34,14 @@
     </header>
     <br />
     <section class="container">
-        <div style="width:40%; display: inline-block;">
+        <div style="width:40%; min-width: 320px; display: inline-block;">
             <input type="text" id="source" list="validMethodsAndTypes" placeholder="Source method or type" />
             <input type="text" id="destination" list="validMethodsAndTypes" placeholder="Destination method or type" />
             <datalist id="validMethodsAndTypes" style="display: none;"><!-- option value="value" --></datalist>
         </div>
-        <div id="pathList" style="height: 160px; width:40%; display: inline-block; border: 1px black solid;" class="flipView" data-win-control="WinJS.UI.FlipView" data-win-options="{ itemDataSource: WinJSGlobalCodeStore.bindingList.dataSource, itemTemplate: WinJSGlobalPathLister.itemTemplate }"></div>
-        <div id="output" style="vertical-align: top; width: 40%; display: inline-block; "></div>
-        <div id="graph" style="width: 40%; display: inline-block; "></div>
+        <div id="pathList" style="height: 160px; min-width: 320px; width:40%; display: inline-block; border: 1px black solid;" class="flipView" data-win-control="WinJS.UI.FlipView" data-win-options="{ itemDataSource: WinJSGlobalCodeStore.bindingList.dataSource, itemTemplate: WinJSGlobalPathLister.itemTemplate }"></div>
+        <div id="output" style="vertical-align: top; min-width: 320px; width: 40%; display: inline-block; "></div>
+        <div id="graph" style="width: 40%; min-width: 320px; display: inline-block; "></div>
     </section>
     <br />
     <footer class="container">
