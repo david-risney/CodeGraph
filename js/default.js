@@ -5,14 +5,14 @@
 
     var app = WinJS.Application;
 
-    app.onready = function (args) {
+    app.onready = function () {
         var codeStore = new CodeStore(),
             codeVisualizer = new CodeVisualizer(),
             pathLister = new PathLister(),
             codeGenerator = new CodeGenerator(),
             controls = new Controls();
 
-        WinJS.UI.processAll().then(function() {
+        WinJS.UI.processAll().then(function () {
             return codeStore.initializeAsync(["data/common.json", "data/ie11.json", "data/win8.1-winrtjs.json"]);
         }).then(function () {
             return codeVisualizer.initializeAsync(codeStore, "graph");
@@ -28,8 +28,5 @@
         });
     };
 
-    app.oncheckpoint = function (args) {
-    };
-
     app.start();
-})();
+}());

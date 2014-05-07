@@ -1,11 +1,5 @@
-var ObjectToHtml = (function () {
+var objectToHtml = (function () {
     "use strict";
-
-    var arrayConstructor = [].constructor;
-
-    function isArray(object) {
-        return object && object.constructor === arrayConstructor;
-    }
 
     function objectProperties(object) {
         var name,
@@ -13,13 +7,14 @@ var ObjectToHtml = (function () {
             properties = [];
 
         for (name in object) {
-            try {
-                value = object[name];
+            if (object.hasOwnProperty(name)) {
+                try {
+                    value = object[name];
+                } catch (e) {
+                    value = e;
+                }
+                properties.push({ name: name, value: value });
             }
-            catch (e) {
-                value = e;
-            }
-            properties.push({name: name, value: value});
         }
 
         return properties;
@@ -30,13 +25,13 @@ var ObjectToHtml = (function () {
             element[attributeName] !== undefined;
     }
 
-    function ObjectToHtml(elementState) {
+    function objectToHtml(elementState) {
         var nameProperty = objectProperties(elementState).filter(function (property) {
             return property.name !== "c" &&
                 property.name !== "s" &&
                 property.name !== "e" &&
                 property.name !== "t";
-            })[0],
+        })[0],
             contentProperty = elementState.c || [],
             styleProperty = elementState.s,
             eventProperty = elementState.e,
@@ -59,10 +54,10 @@ var ObjectToHtml = (function () {
 
         objectProperties(styleProperty).forEach(function (style) { element.style[style.name] = style.value; });
         objectProperties(eventProperty).forEach(function (event) { element.addEventListener(event.name, event.value); });
-        contentProperty.map(ObjectToHtml).forEach(function (childElement) { element.appendChild(childElement); });
+        contentProperty.map(objectToHtml).forEach(function (childElement) { element.appendChild(childElement); });
 
         return element;
     }
 
-    return ObjectToHtml;
-})(this);
+    return objectToHtml;
+}(this));

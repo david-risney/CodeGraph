@@ -1,76 +1,11 @@
 ﻿var Controls = function () {
-    var startNodeId = null,
-        endNodeId = null,
-        codeStore,
+    "use strict";
+
+    var codeStore,
         validMethodsAndTypes = [],
         validMethodsAndTypesElement,
         sourceNameElement,
         destinationNameElement,
-        nameToIds = function (name) {
-            var result = null,
-                normalize = function (str) {
-                    return str.toLowerCase().trim();
-                },
-                normalizedName = normalize(name),
-                entries = validMethodsAndTypes.filter(function (entry) {
-                    return -1 !== normalize(entry.name).indexOf(normalizedName);
-                }).sort(function (left, right) { return left.name.length - right.name.length; });
-
-            return entries.map(function (entry) { return entry.node.id; });
-        },
-        normalizeNameControls = function () {
-            var startNodeText = sourceNameElement.value,
-                endNodeText = destinationNameElement.value;
-
-            codeStore.getGraphs().solutions.splice(0, codeStore.getGraphs().solutions.length);
-            codeStore.getGraphs().visualGraph.getNodes().forEach(function (node) {
-                node.data.selected = false;
-            });
-
-            if (startNodeText && startNodeText.length && endNodeText && endNodeText.length) {
-                startNodeIds = nameToIds(startNodeText);
-                endNodeIds = nameToIds(endNodeText);
-
-                if (startNodeIds && startNodeIds.length && endNodeIds && endNodeIds.length) {
-                    var idToNode = codeStore.getGraphs().dataGraph.getNodeById.bind(codeStore.getGraphs().dataGraph);
-                    writeUrlState();
-
-                    //codeStore.getGraphs().dataGraph.findShortestPathAsync(startNodeIds.map(idToNode)[0], endNodeIds.map(idToNode)[0]).then(
-                    codeStore.getGraphs().dataGraph.findShortestPathsAsync(
-                        startNodeIds.map(idToNode).filter(function (node) { return node; }),
-                        endNodeIds.map(idToNode).filter(function (node) { return node; })).
-                        then(
-                            function (solutions) {
-                                solutions.forEach(function (solution) {
-                                    codeStore.getGraphs().solutions.push(solution);
-                                });
-                            });
-                }
-            }
-        },
-        readUrlState = function () {
-            var params,
-                val;
-            try {
-                if (document.location && document.location.search) {
-                    params = document.location.search.substr(1).split("&").map(function (param) { return param.split("="); });
-                    params.forEach(function (param) {
-                        switch (param[0].toLowerCase()) {
-                            case "from":
-                                sourceNameElement.value = decodeURIComponent(param[1]);
-                                break;
-                            case "to":
-                                destinationNameElement.value = decodeURIComponent(param[1]);
-                                break;
-                        }
-                    });
-                    normalizeNameControls();
-                }
-            }
-            catch (e) {
-                console.error("Unable to process URI query property: " + e);
-            }
-        },
         writeUrlState = function () {
             var selectedIndex = codeStore.getGraphs().selectedSolution.getIndex(),
                 query;
@@ -83,6 +18,69 @@
 
             if (query !== document.location.search) {
                 history.pushState(null, null, query);
+            }
+        },
+        nameToIds = function (name) {
+            var normalize = function (str) {
+                    return str.toLowerCase().trim();
+                },
+                normalizedName = normalize(name),
+                entries = validMethodsAndTypes.filter(function (entry) {
+                    return -1 !== normalize(entry.name).indexOf(normalizedName);
+                }).sort(function (left, right) { return left.name.length - right.name.length; });
+
+            return entries.map(function (entry) { return entry.node.id; });
+        },
+        normalizeNameControls = function () {
+            var startNodeText = sourceNameElement.value,
+                endNodeText = destinationNameElement.value,
+                startNodeIds,
+                endNodeIds,
+                idToNode;
+
+            codeStore.getGraphs().solutions.splice(0, codeStore.getGraphs().solutions.length);
+            codeStore.getGraphs().visualGraph.getNodes().forEach(function (node) {
+                node.data.selected = false;
+            });
+
+            if (startNodeText && startNodeText.length && endNodeText && endNodeText.length) {
+                startNodeIds = nameToIds(startNodeText);
+                endNodeIds = nameToIds(endNodeText);
+
+                if (startNodeIds && startNodeIds.length && endNodeIds && endNodeIds.length) {
+                    idToNode = codeStore.getGraphs().dataGraph.getNodeById.bind(codeStore.getGraphs().dataGraph);
+                    writeUrlState();
+
+                    codeStore.getGraphs().dataGraph.findShortestPathsAsync(
+                        startNodeIds.map(idToNode).filter(function (node) { return node; }),
+                        endNodeIds.map(idToNode).filter(function (node) { return node; })
+                    ).then(function (solutions) {
+                        solutions.forEach(function (solution) {
+                            codeStore.getGraphs().solutions.push(solution);
+                        });
+                    });
+                }
+            }
+        },
+        readUrlState = function () {
+            var params;
+            try {
+                if (document.location && document.location.search) {
+                    params = document.location.search.substr(1).split("&").map(function (param) { return param.split("="); });
+                    params.forEach(function (param) {
+                        switch (param[0].toLowerCase()) {
+                        case "from":
+                            sourceNameElement.value = decodeURIComponent(param[1]);
+                            break;
+                        case "to":
+                            destinationNameElement.value = decodeURIComponent(param[1]);
+                            break;
+                        }
+                    });
+                    normalizeNameControls();
+                }
+            } catch (e) {
+                console.error("Unable to process URI query property: " + e);
             }
         };
 
@@ -107,8 +105,7 @@
                             node: node
                         };
                     });
-                }
-                else {
+                } else {
                     state = [{ name: node.data.name, node: node }];
                 }
                 return state;

@@ -1,4 +1,6 @@
 ﻿var Graph = function () {
+    "use strict";
+
     var nodes = [],
         links = [],
         nodeToIndex = new Map(),
@@ -11,46 +13,46 @@
             this.data = data;
         },
         Node = function (id, data) {
-            var links = [],
-                that = this;
+            var nLinks = [],
+                thisNode = this;
             this.addLink = function (link) {
-                links.push(link);
+                nLinks.push(link);
             };
             // Links that point into this node.
             this.getInLinks = function () {
-                return links.filter(function (link) { return link.inNode === that; });
+                return nLinks.filter(function (link) { return link.inNode === thisNode; });
             };
             // Links that leave out of this node.
             this.getOutLinks = function () {
-                return links.filter(function (link) { return link.outNode === that; });
+                return nLinks.filter(function (link) { return link.outNode === thisNode; });
             };
             this.data = data;
             this.id = id;
         },
         Path = function (firstNode) {
-            var links = [];
+            var pLinks = [];
             console.assert(firstNode);
             this.clone = function () {
                 var cloned = new Path(firstNode);
-                links.forEach(function (link) { cloned.pushLink(link); });
+                pLinks.forEach(function (link) { cloned.pushLink(link); });
                 return cloned;
             };
             this.pushLink = function (link) {
-                links.push(link);
+                pLinks.push(link);
             };
             this.hasLink = function (link) {
-                return links.some(function (testLink) { return testLink === link; });
+                return pLinks.some(function (testLink) { return testLink === link; });
             };
-            this.getLinks = function () { return links; };
-            this.getNodes = function () { return [firstNode].concat(links.map(function (link) { return link.inNode; })); };
+            this.getLinks = function () { return pLinks; };
+            this.getNodes = function () { return [firstNode].concat(pLinks.map(function (link) { return link.inNode; })); };
             this.getTotalCost = function () {
-                return links.reduce(function (total, link) { return total + (link.cost || 0); }, 0);
+                return pLinks.reduce(function (total, link) { return total + (link.cost || 0); }, 0);
             };
             this.getFirstNode = function () {
                 return firstNode;
             };
             this.getLastNode = function () {
-                return links.length ? links[links.length - 1].inNode : firstNode;
+                return pLinks.length ? pLinks[pLinks.length - 1].inNode : firstNode;
             };
         },
         SortedPathList = function () {
@@ -78,19 +80,18 @@
                     }
 
                     (options.followLinksBackwards ?
-                        currentPath.getLastNode().getInLinks() :
-                        currentPath.getLastNode().getOutLinks()).filter(function (link) {
-                            return !currentPath.hasLink(link);
-                        }).forEach(function (link) {
-                            var nextPath = currentPath.clone();
-                            nextPath.pushLink(link);
-                            paths.add(nextPath);
-                        });
+                            currentPath.getLastNode().getInLinks() :
+                            currentPath.getLastNode().getOutLinks()).filter(function (link) {
+                        return !currentPath.hasLink(link);
+                    }).forEach(function (link) {
+                        var nextPath = currentPath.clone();
+                        nextPath.pushLink(link);
+                        paths.add(nextPath);
+                    });
 
                     if (!paths.isEmpty() && solutions.length < options.maxPaths) {
                         setTimeout(findPathsInternalLoopAsync, 0);
-                    }
-                    else {
+                    } else {
                         deferral.resolve(solutions);
                     }
                 };
@@ -182,7 +183,7 @@
     };
 
     this.findShortestPathsAsync = function (startNodes, endNodes) {
-        return PromiseJoinWithProgress(product(startNodes, endNodes).map(function (args) {
+        return promiseJoinWithProgress(product(startNodes, endNodes).map(function (args) {
             return function () {
                 return findPathsInternalAsync(SortedPathList, args[0], function (node) { return node === args[1]; });
             };

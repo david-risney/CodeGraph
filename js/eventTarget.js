@@ -1,4 +1,6 @@
 ﻿var EventTarget = function (target, eventTypes) {
+    "use strict";
+
     var eventTypeToHandlers = {}; // Map from event type name string to array of event handlers.
 
     if (!(this instanceof EventTarget)) {

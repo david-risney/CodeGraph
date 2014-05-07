@@ -1,4 +1,6 @@
 ﻿var Deferral = function () {
+    "use strict";
+
     var resolve,
         reject,
         notify,

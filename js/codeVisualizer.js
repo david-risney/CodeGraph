@@ -1,17 +1,27 @@
 ﻿var CodeVisualizer = function () {
+    "use strict";
+
     this.initializeAsync = function (codeStore, graphParentName) {
         var trueWidth = window.innerWidth / 2,
             trueHeight = 500,
             width = trueWidth / 2,
             height = trueHeight / 2,
-            graph = codeStore.getGraphs().visualGraph;
+            graph = codeStore.getGraphs().visualGraph,
+            force,
+            svg,
+            d3Graph,
+            link,
+            node,
+            nodes,
+            links,
+            bilinks;
 
-        var force = d3.layout.force()
+        force = d3.layout.force()
             .linkDistance(30)
             .linkStrength(2)
             .size([width, height]);
 
-        var svg = d3.select("#" + graphParentName).append("svg")
+        svg = d3.select("#" + graphParentName).append("svg")
             .attr("width", width * 2)
             .attr("height", height * 2);
 
@@ -45,12 +55,12 @@
             .attr("d", "M 0 0 L 10 5 L 0 10 z");
 
         svg = svg.append("g")
-        .attr("transform", "scale(2)");
+            .attr("transform", "scale(2)");
 
-        var d3Graph = graph.getD3Graph(),
-            nodes = d3Graph.nodes.slice(),
-            links = [],
-            bilinks = [];
+        d3Graph = graph.getD3Graph();
+        nodes = d3Graph.nodes.slice();
+        links = [];
+        bilinks = [];
 
         d3Graph.links.forEach(function (link) {
             var s = link.source,
@@ -66,12 +76,12 @@
             .links(links)
             .start();
 
-        var link = svg.selectAll(".link")
+        link = svg.selectAll(".link")
             .data(bilinks)
             .enter().append("path")
             .attr("class", "link unselected");
 
-        var node = svg.selectAll(".node")
+        node = svg.selectAll(".node")
             .data(d3Graph.nodes)
             .enter().append("g")
             .attr("class", "node")
@@ -89,7 +99,7 @@
             .attr("dx", -12)
             .attr("dy", "1.35em")
             .attr("class", function (d3Node) { return d3Node.data.data.selected ? "selected" : "unselected"; })
-            .text(function (d3Node) { return /*d3Node.data.data.selected ? */ d3Node.data.data.name /*: ""*/; });
+            .text(function (d3Node) { return d3Node.data.data.name; });
 
         function onSelectionChanged() {
             node.selectAll("text")
@@ -117,18 +127,18 @@
         }
 
         codeStore.getGraphs().selectedSolution.addEventListener("indexChanged", function () {
-            var index = codeStore.getGraphs().selectedSolution.getIndex(),
-                solution;
+            var index = codeStore.getGraphs().selectedSolution.getIndex();
 
             codeStore.getGraphs().visualGraph.getNodes().forEach(function (node) {
                 node.data.selected = false;
             });
+
             if (index >= 0 && index < codeStore.getGraphs().solutions.length) {
                 codeStore.getGraphs().solutions.getAt(index).getNodes().forEach(function (node) {
                     node.data.visualNode.data.selected = true;
                 });
             }
-            
+
             onSelectionChanged();
         });
 

@@ -1,19 +1,17 @@
 ﻿var CodeStore = (function () {
-    var SelectedValue = function() {
+    "use strict";
+
+    var SelectedValue = function () {
         var eventTarget = new EventTarget(this, ["indexChanged"]),
             selectedIndex = -1;
+
         this.setIndex = function (newSelectedIndex) {
-            var oldSelectedIndex = selectedIndex;
             selectedIndex = newSelectedIndex;
             eventTarget.dispatchIndexChangedEvent(this);
         };
-        this.getIndex = function (length) {
-            if (length === undefined) {
-                return selectedIndex;
-            }
-            else {
-                return Math.min(length, selectedIndex - 1);
-            }
+
+        this.getIndex = function () {
+            return selectedIndex;
         };
     };
 
@@ -21,7 +19,7 @@
         bindingList: new WinJS.Binding.List([])
     });
 
-    return function() {
+    return function () {
         var inputData = {},
             solutions = WinJSGlobalCodeStore.bindingList,
             selectedSolution = new SelectedValue(),
@@ -30,8 +28,11 @@
             toProperties = function (object) {
                 var name,
                     properties = [];
+
                 for (name in object) {
-                    properties.push({ name: name, value: object[name] });
+                    if (object.hasOwnProperty(name)) {
+                        properties.push({ name: name, value: object[name] });
+                    }
                 }
                 return properties;
             },
@@ -48,14 +49,15 @@
 
                     fnDef.templates.forEach(function (template, idx, templates) {
                         var nodeId = fnDef.id,
-                            nodeName = fnDef.names[0];
+                            nodeName = fnDef.names[0],
+                            dataFunctionNode;
 
                         if (templates.length > 1) {
                             nodeId += "-" + idx;
                             nodeName += " (" + idx + ")";
                         }
 
-                        var dataFunctionNode = dataGraphState.addNode(nodeId, { name: nodeName, data: template, group: 1, visualNode: undefined });
+                        dataFunctionNode = dataGraphState.addNode(nodeId, { name: nodeName, data: template, group: 1, visualNode: undefined });
 
                         dataFunctionNode.data.visualNode = visualFunctionNode;
                         visualFunctionNode.data.dataNodes.push(dataFunctionNode);
@@ -75,7 +77,7 @@
                         outTypesCost = fnDef.cost !== undefined ? fnDef.cost : 1;
 
                     fnDef.templates.forEach(function (template, idx, templates) {
-                        var dataFnId = fnDef.id + (templates.length > 1 ? + "-" + idx : "");
+                        var dataFnId = fnDef.id + (templates.length > 1 ? "-" + idx : "");
 
                         template.in.forEach(function (inType) {
                             var dataNode = dataGraphState.addLinkByNodeId(dataFnId, inType.type, 1, { data: undefined, group: 0, visualNode: undefined }),
@@ -114,4 +116,4 @@
             };
         };
     };
-})();
+}());

@@ -1,4 +1,6 @@
-﻿var PromiseJoinWithProgress = function (promiseFns) {
+﻿var promiseJoinWithProgress = function (promiseFns) {
+    "use strict";
+
     var deferral = new Deferral(),
         promises = promiseFns.map(function (promiseFn) { return promiseFn(); }),
         joinedPromises = WinJS.Promise.join(promises);

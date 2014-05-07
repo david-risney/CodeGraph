@@ -1,11 +1,12 @@
 ﻿var CodeGenerator = function () {
+    "use strict";
+
     var parent,
         codeStore;
 
     function refresh(path) {
         var code = "$next",
-            lastInput,
-            clone = function(obj) { return JSON.parse(JSON.stringify(obj)); },
+            clone = function (obj) { return JSON.parse(JSON.stringify(obj)); },
             existingVariables = [],
             frames = path ? path.getNodes().filter(function (node) { return node.data.data.code; }).map(function (node) { return node.data.data; }) : [],
             firstFrame = { code: "", "in": [], out: [] },
@@ -19,7 +20,7 @@
             }).join("\n") + "\n$next";
             frames = [firstFrame].concat(frames).concat([lastFrame]);
         }
-                
+
         frames.forEach(function (data) {
             var codeFilled = data.code,
                 replacements = [],
@@ -44,17 +45,17 @@
 
             codeFilled = replacements.sort(function (left, right) { return right.oldName.length - left.oldName.length; }).
                 reduce(function (codeFilled, entry) { return codeFilled.replace("$" + entry.oldName, entry.newName); }, codeFilled);
-                    
+
             indent = /\n(\t*)\$next/.exec(code);
             indent = (indent && indent[1]) || "";
-                    
+
             codeFilled = codeFilled.split("\n").map(function (line, idx) { return idx === 0 ? line : indent + line; }).join("\n");
             code = code.replace("$next", codeFilled);
         });
         code = code.replace(/\t/g, "    ");
 
         parent.innerHTML = "";
-        parent.appendChild(ObjectToHtml({ pre: {}, c: [{ code: {}, t: code }] }));
+        parent.appendChild(objectToHtml({ pre: {}, c: [{ code: {}, t: code }] }));
         hljs.highlightBlock(parent);
     }
 
