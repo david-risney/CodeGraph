@@ -1,5 +1,5 @@
 ﻿html {
-	overflow: auto;
+    overflow: auto;
 }
 
 body {
@@ -7,7 +7,7 @@ body {
 }
 
 body > * {
-    background-color: rgba(255, 255, 255, 50);
+    background-color: white;
 }
 
 .fill {
@@ -57,14 +57,20 @@ body > * {
     fill: #999;
 }
 
-.link.selected {
-    stroke: #999;
-    stroke-width: 3;
+    .link.selected {
+        stroke: #999;
+        stroke-width: 3;
+    }
+
+.selected.marker {
     marker-end: url(#TriangleSelected);
 }
 
 .link.unselected {
     stroke: #bbb;
     stroke-width: 2;
+}
+
+.unselected.marker {
     marker-end: url(#TriangleUnselected);
 }

@@ -77,14 +77,33 @@
             .attr("class", "node")
             .call(force.drag);
 
-        node.append("circle");
+        node.append("circle")
+            .attr("class", function (d3Node) { return d3Node.data.data.selected ? "selected" : "unselected"; })
+            .attr("r", function (d3Node) { return d3Node.data.data.selected ? "6" : "3"; })
+            .style("fill", function (d3Node) { return d3Node.data.data.group ? "red" : "blue"; });
 
         node.append("title")
             .text(function (d3Node) { return d3Node.data.data.name; });
 
         node.append("text")
             .attr("dx", -12)
-            .attr("dy", "1.35em");
+            .attr("dy", "1.35em")
+            .attr("class", function (d3Node) { return d3Node.data.data.selected ? "selected" : "unselected"; })
+            .text(function (d3Node) { return /*d3Node.data.data.selected ? */ d3Node.data.data.name /*: ""*/; });
+
+        function onSelectionChanged() {
+            node.selectAll("text")
+                .attr("class", function (d3Node) { return d3Node.data.data.selected ? "selected" : "unselected"; });
+
+            node.selectAll("circle")
+                .attr("class", function (d3Node) { return d3Node.data.data.selected ? "selected" : "unselected"; })
+                .attr("r", function (d3Node) { return d3Node.data.data.selected ? "6" : "3"; });
+
+            link
+                .attr("class", function (d3Nodes) {
+                    return d3Nodes[0].data.data.selected && d3Nodes[d3Nodes.length - 1].data.data.selected ? "link selected" : "link unselected";
+                });
+        }
 
         function onTick() {
             link.attr("d", function (d) {
@@ -95,20 +114,6 @@
             node.attr("transform", function (d) {
                 return "translate(" + d.x + "," + d.y + ")";
             });
-
-            node.selectAll("text")
-                .attr("class", function (d3Node) { return d3Node.data.data.selected ? "selected" : "unselected"; })
-                .text(function (d3Node) { return /*d3Node.data.data.selected ? */ d3Node.data.data.name /*: ""*/; });
-
-            node.selectAll("circle")
-                .attr("class", function (d3Node) { return d3Node.data.data.selected ? "selected" : "unselected"; })
-                .attr("r", function (d3Node) { return d3Node.data.data.selected ? "6" : "3"; })
-                .style("fill", function (d3Node) { return d3Node.data.data.group ? "red" : "blue"; });
-
-            link
-                .attr("class", function (d3Nodes) {
-                    return d3Nodes[0].data.data.selected && d3Nodes[d3Nodes.length - 1].data.data.selected ? "link selected" : "link unselected";
-                });
         }
 
         codeStore.getGraphs().selectedSolution.addEventListener("indexChanged", function () {
@@ -124,7 +129,7 @@
                 });
             }
             
-            onTick();
+            onSelectionChanged();
         });
 
         force.on("tick", onTick);
