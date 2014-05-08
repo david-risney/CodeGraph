@@ -11,7 +11,7 @@ module.exports = function (grunt) {
                 ],
                 directives: { // example directives
                     browser: true,
-                    predef: ['console', 'objectToHtml', 'hljs', 'EventTarget', 'WinJS', 'Graph', 'WinJSGlobalCodeStore', 'WinJSGlobalPathLister', 'Deferral', 'd3', 'CodeStore', 'CodeVisualizer', 'PathLister', 'CodeGenerator', 'Controls', 'promiseJoinWithProgress']
+                    predef: ['console', 'objectToHtml', 'hljs', 'EventTarget', 'WinJS', 'Graph', 'WinJSGlobalCodeStore', 'WinJSGlobalPathLister', 'Deferral', 'd3', 'CodeStore', 'CodeVisualizer', 'PathLister', 'CodeGenerator', 'Controls', 'promiseJoinWithProgress', 'Progress']
                 },
                 options: {
                     edition: 'latest', // specify an edition of jslint or use 'dir/mycustom-jslint.js' for own path
@@ -28,6 +28,7 @@ module.exports = function (grunt) {
                 options: {
                     urls: [
                       'http://localhost:8070/test/src/graph.html',
+                      'http://localhost:8070/test/src/verify-dependencies.html'
                     ]
                 }
             }

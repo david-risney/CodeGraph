@@ -48,6 +48,7 @@
                 endNodeIds = nameToIds(endNodeText);
 
                 if (startNodeIds && startNodeIds.length && endNodeIds && endNodeIds.length) {
+                    Progress.show(true);
                     idToNode = codeStore.getGraphs().dataGraph.getNodeById.bind(codeStore.getGraphs().dataGraph);
                     writeUrlState();
 
@@ -58,6 +59,7 @@
                         solutions.forEach(function (solution) {
                             codeStore.getGraphs().solutions.push(solution);
                         });
+                        Progress.show(false);
                     });
                 }
             }

@@ -25,6 +25,8 @@
         }).then(function () {
             hljs.configure({ tabReplace: '    ' });
             hljs.initHighlightingOnLoad();
+        }).then(function () {
+            Progress.initializeComplete();
         });
     };
 

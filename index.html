@@ -22,6 +22,7 @@
     <script src="js/objectToHtml.js"></script>
     <script src="js/graph.js"></script>
     <script src="js/codeStore.js"></script>
+    <script src="js/progress.js"></script>
     <script src="js/codeVisualizer.js"></script>
     <script src="js/pathLister.js"></script>
     <script src="js/codeGenerator.js"></script>
@@ -32,9 +33,10 @@
 <body class="borderless fill">
     <header class="container">
         <h1>Code Graph</h1>
+        <progress style="width: 100%; opacity: 1;"></progress>
     </header>
     <br />
-    <section class="container">
+    <section class="container waitForInitialized">
         <div style="width:40%; min-width: 320px; display: inline-block;">
             <input type="text" id="source" list="validMethodsAndTypes" placeholder="Source method or type" />
             <input type="text" id="destination" list="validMethodsAndTypes" placeholder="Destination method or type" />
@@ -45,7 +47,7 @@
         <div id="graph" style="width: 40%; min-width: 320px; display: inline-block; "></div>
     </section>
     <br />
-    <footer class="container">
+    <footer class="container waitForInitialized">
         Code Graph is made up of the following:
         <ul>
             <li><a href="https://github.com/david-risney/CodeGraph/">CodeGraph</a> (<a href="LICENSE">license</a>)</li>
