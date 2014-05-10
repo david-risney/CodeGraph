@@ -27,6 +27,8 @@
             hljs.initHighlightingOnLoad();
         }).then(function () {
             Progress.initializeComplete();
+        }, function (error) {
+            document.getElementById("error").textContent = "Error loading: " + error;
         });
     };
 

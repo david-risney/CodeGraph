@@ -11,15 +11,18 @@
     <link href="lib/css/highlight/github.css" rel="stylesheet" />
     <link href="lib/css/bootstrap.css" rel="stylesheet" />
     <link href="lib/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="lib/css/magic.css" rel="stylesheet" />
 
-    <script src="lib/js/es6-collections.js"></script>
+    <script src="lib/js/es6-shim.js"></script>
     <script src="lib/winjs/js/base.js"></script>
     <script src="lib/winjs/js/ui.js"></script>
     <script src="lib/js/d3.js"></script>
+    <script src="js/proxyPort.js"></script>
     <script src="js/eventTarget.js"></script>
     <script src="js/promiseJoinWithProgress.js"></script>
     <script src="js/deferral.js"></script>
     <script src="js/objectToHtml.js"></script>
+    <script src="js/asyncReentrancyGuard.js"></script>
     <script src="js/graph.js"></script>
     <script src="js/codeStore.js"></script>
     <script src="js/progress.js"></script>
@@ -32,11 +35,11 @@
 </head>
 <body class="borderless fill">
     <header class="container">
-        <h1>Code Graph</h1>
+        <h1>Code Graph</h1><span id="error"></span>
         <progress style="width: 100%; opacity: 1;"></progress>
     </header>
     <br />
-    <section class="container waitForInitialized">
+    <section class="container waitForInitialized magictime tinRightIn">
         <div style="width:40%; min-width: 320px; display: inline-block;">
             <input type="text" id="source" list="validMethodsAndTypes" placeholder="Source method or type" />
             <input type="text" id="destination" list="validMethodsAndTypes" placeholder="Destination method or type" />
@@ -47,17 +50,23 @@
         <div id="graph" style="width: 40%; min-width: 320px; display: inline-block; "></div>
     </section>
     <br />
-    <footer class="container waitForInitialized">
-        Code Graph is made up of the following:
+    <footer class="container waitForInitialized magictime tinRightIn">
+        Code Graph is:
         <ul>
-            <li><a href="https://github.com/david-risney/CodeGraph/">CodeGraph</a> (<a href="LICENSE">license</a>)</li>
+            <li>Made by <a href="http://deletethis.net/dave/">David Risney</a></li>
+            <li>Available on <a href="https://github.com/david-risney/CodeGraph/">GitHub</a></li>
+            <li>Licensed under an MIT style <a href="LICENSE">license</a></li>
+        </ul>
+        And it depends upon the following open source projects:
+        <ul>
             <li><a href="https://github.com/winjs/winjs">WinJS</a> (<a href="https://raw.githubusercontent.com/winjs/winjs/master/License.txt">license</a>)</li>
             <li><a href="http://getbootstrap.com/">Bootstrap</a> (<a href="https://raw.githubusercontent.com/twbs/bootstrap/master/LICENSE">license</a>)</li>
-            <li><a href="http://subtlepatterns.com/">Subtle Patterns</a> ( <a href="http://creativecommons.org/licenses/by-sa/3.0/">license</a>)</li>
-            <li><a href="https://github.com/WebReflection/es6-collections">ES6 Collections</a> (<a href="https://github.com/WebReflection/es6-collections/blob/master/LICENSE.txt">license</a>)</li>
+            <li><a href="http://subtlepatterns.com/">Subtle Patterns</a> (<a href="http://creativecommons.org/licenses/by-sa/3.0/">license</a>)</li>
+            <li><a href="https://github.com/paulmillr/es6-shim">ES6 Shim</a> (<a href="https://github.com/paulmillr/es6-shim#license">license</a>)</li>
             <li><a href="http://d3js.org/">D3.js</a> (<a href="https://raw.githubusercontent.com/mbostock/d3/master/LICENSE">license</a>)</li>
             <li><a href="http://highlightjs.org/">highlight.js</a> (<a href="https://raw.githubusercontent.com/isagalaev/highlight.js/master/LICENSE">license</a>)</li>
+            <li><a href="https://github.com/miniMAC/magic">magic</a></li>
         </ul>
-    </footer>
+</footer>
 </body>
 </html>
