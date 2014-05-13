@@ -52,7 +52,7 @@
                     idToNode = codeStore.getGraphs().dataGraph.getNodeById.bind(codeStore.getGraphs().dataGraph);
                     writeUrlState();
 
-                    codeStore.getGraphs().dataGraph.findShortestPathsAsync(
+                    Graph.findShortestPathsAsync(
                         startNodeIds.map(idToNode).filter(function (node) { return node; }),
                         endNodeIds.map(idToNode).filter(function (node) { return node; })
                     ).then(function (solutions) {

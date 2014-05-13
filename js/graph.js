@@ -28,90 +28,6 @@
             };
             this.data = data;
             this.id = id;
-        },
-        Path = function (firstNode) {
-            var pLinks = [];
-            console.assert(firstNode);
-            this.clone = function () {
-                var cloned = new Path(firstNode);
-                pLinks.forEach(function (link) { cloned.pushLink(link); });
-                return cloned;
-            };
-            this.pushLink = function (link) {
-                pLinks.push(link);
-            };
-            this.hasLink = function (link) {
-                return pLinks.some(function (testLink) { return testLink === link; });
-            };
-            this.getLinks = function () { return pLinks; };
-            this.getNodes = function () { return [firstNode].concat(pLinks.map(function (link) { return link.inNode; })); };
-            this.getTotalCost = function () {
-                return pLinks.reduce(function (total, link) { return total + (link.cost || 0); }, 0);
-            };
-            this.getFirstNode = function () {
-                return firstNode;
-            };
-            this.getLastNode = function () {
-                return pLinks.length ? pLinks[pLinks.length - 1].inNode : firstNode;
-            };
-        },
-        SortedPathList = function () {
-            var paths = [];
-            this.add = function (path) {
-                paths.push(path);
-                paths = paths.sort(function (pathLeft, pathRight) { return -(pathLeft.getTotalCost() - pathRight.getTotalCost()); });
-                return path;
-            };
-            this.isEmpty = function () { return !paths.length; };
-            this.removeNext = function () {
-                return paths.pop();
-            };
-        },
-        findPathsInternalAsync = function (PathsContainerCtor, nodeStart, isEndNode, options) {
-            var paths = new PathsContainerCtor(),
-                solutions = [],
-                deferral = new Deferral(),
-                findPathsInternalLoopAsync = function () {
-                    var currentPath = paths.removeNext();
-
-                    if (isEndNode(currentPath.getLastNode())) {
-                        solutions.push(currentPath);
-                        deferral.notify(currentPath);
-                    }
-
-                    (options.followLinksBackwards ?
-                            currentPath.getLastNode().getInLinks() :
-                            currentPath.getLastNode().getOutLinks()).filter(function (link) {
-                        return !currentPath.hasLink(link);
-                    }).forEach(function (link) {
-                        var nextPath = currentPath.clone();
-                        nextPath.pushLink(link);
-                        paths.add(nextPath);
-                    });
-
-                    if (!paths.isEmpty() && solutions.length < options.maxPaths) {
-                        setTimeout(findPathsInternalLoopAsync, 0);
-                    } else {
-                        deferral.resolve(solutions);
-                    }
-                };
-
-            options = options || {};
-            options.maxPaths = options.maxPaths || Infinity;
-            options.followLinksBackwards = options.followLinksBackwards || false;
-
-            paths.add(new Path(nodeStart));
-
-            setTimeout(findPathsInternalLoopAsync, 0);
-
-            return deferral.promise;
-        },
-        product = function (ar1, ar2) {
-            return ar1.map(function (entry1) {
-                return ar2.map(function (entry2) {
-                    return [entry1, entry2];
-                });
-            }).reduce(function (total, next) { return total.concat(next); }, []);
         };
 
     this.getNodes = function () { return nodes; };
@@ -178,11 +94,120 @@
         };
     };
 
-    this.findShortestPathAsync = function (startNode, endNode) {
+};
+
+(function () {
+    "use strict";
+    var Path = function (firstNode) {
+            var pLinks = [];
+            console.assert(firstNode);
+            this.clone = function () {
+                var cloned = new Path(firstNode);
+                pLinks.forEach(function (link) { cloned.pushLink(link); });
+                return cloned;
+            };
+            this.pushLink = function (link) {
+                pLinks.push(link);
+            };
+            this.hasLink = function (link) {
+                return pLinks.some(function (testLink) { return testLink === link; });
+            };
+            this.getLinks = function () { return pLinks; };
+            this.getNodes = function () { return [firstNode].concat(pLinks.map(function (link) { return link.inNode; })); };
+            this.getTotalCost = function () {
+                return pLinks.reduce(function (total, link) { return total + (link.cost || 0); }, 0);
+            };
+            this.getFirstNode = function () {
+                return firstNode;
+            };
+            this.getLastNode = function () {
+                return pLinks.length ? pLinks[pLinks.length - 1].inNode : firstNode;
+            };
+        },
+        SortedPathList = function () {
+            var paths = [];
+            this.add = function (path) {
+                paths.push(path);
+                paths = paths.sort(function (pathLeft, pathRight) { return -(pathLeft.getTotalCost() - pathRight.getTotalCost()); });
+                return path;
+            };
+            this.isEmpty = function () { return !paths.length; };
+            this.removeNext = function () {
+                return paths.pop();
+            };
+        },
+        findPathsInternalAsync = function (PathsContainerCtor, nodeStart, isEndNode, options) {
+            var paths = new PathsContainerCtor(),
+                solutions = [],
+                deferral = new Deferral(),
+                findPathsInternalLoopAsync = function () {
+                    var currentPath = paths.removeNext();
+
+                    if (isEndNode(currentPath.getLastNode())) {
+                        solutions.push(currentPath);
+                        deferral.notify(currentPath);
+                    }
+
+                    (options.followLinksBackwards ?
+                            currentPath.getLastNode().getInLinks() :
+                            currentPath.getLastNode().getOutLinks()).filter(function (link) {
+                                return !currentPath.hasLink(link);
+                            }).forEach(function (link) {
+                                var nextPath = currentPath.clone();
+                                nextPath.pushLink(link);
+                                paths.add(nextPath);
+                            });
+
+                    if (!paths.isEmpty() && solutions.length < options.maxPaths) {
+                        setTimeout(findPathsInternalLoopAsync, 0);
+                    } else {
+                        deferral.resolve(solutions);
+                    }
+                };
+
+            options = options || {};
+            options.maxPaths = options.maxPaths || Infinity;
+            options.followLinksBackwards = options.followLinksBackwards || false;
+
+            paths.add(new Path(nodeStart));
+
+            setTimeout(findPathsInternalLoopAsync, 0);
+
+            return deferral.promise;
+        },
+        product = function (ar1, ar2) {
+            return ar1.map(function (entry1) {
+                return ar2.map(function (entry2) {
+                    return [entry1, entry2];
+                });
+            }).reduce(function (total, next) { return total.concat(next); }, []);
+        },
+        initPromise = new AsyncReentrancyGuard.LazyPromise(function () {
+            if (typeof Worker !== "undefined" && typeof ProxyPort !== "undefined") {
+                return ProxyPort.createProxyWorkerAsync([
+                    "../lib/js/es5-shim.js",
+                    "../lib/js/es6-shim.js",
+                    "../lib/winjs/js/base.js",
+                    "../js/asyncReentrancyGuard.js",
+                    "../js/graph.js?worker"
+                ], { proxyPortUri: "js/proxyPort.js", get: "$.Graph" });
+            }
+            else {
+                console.warn("Web workers or ProxyPort unavailable. Unable to run graph on its own thread.");
+                return WinJS.Promise.wrap({ root: Graph });
+            }
+        });
+
+    Graph.findShortestPathAsyncLocal = function (startNode, endNode) {
         return findPathsInternalAsync(SortedPathList, startNode, function (node) { return node === endNode; }, { maxPaths: 1 });
     };
+    Graph.findShortestPathAsync = function (startNode, endNode) {
+        return initPromise.settleAsync().then(function (result) {
+            return result.root.findShortestPathAsyncLocal(startNode, endNode);
+        });
+    };
 
-    this.findShortestPathsAsync = function (startNodes, endNodes) {
+    Graph.findShortestPathsAsyncLocal = function (startNodes, endNodes) {
         return promiseJoinWithProgress(product(startNodes, endNodes).map(function (args) {
             return function () {
                 return findPathsInternalAsync(SortedPathList, args[0], function (node) { return node === args[1]; });
@@ -191,4 +216,9 @@
             return arrOfArrOfSolution.reduce(function (total, next) { return total.concat(next); }, []);
         });
     };
-};
+    Graph.findShortestPathsAsync = function (startNodes, endNodes) {
+        return initPromise.settleAsync().then(function (result) {
+            return result.root.findShortestPathsAsyncLocal(startNodes, endNodes);
+        });
+    };
+}());
