@@ -2,7 +2,8 @@
     "use strict";
 
     this.initializeAsync = function (codeStore, graphParentName) {
-        var trueWidth = window.innerWidth / 2,
+        var graphParent = document.getElementById(graphParentName),
+            trueWidth = graphParent.clientWidth,
             trueHeight = 500,
             width = trueWidth / 2,
             height = trueHeight / 2,
