@@ -73,10 +73,11 @@
 
         document.getElementById(openButtonName).addEventListener("click", function() {
             var form = objectToHtml({
-                form: { method: "POST", action: "http://jsfiddle.net/api/post/mootools/1.2/dependencies/more/", target: "check" }, s: { display: "none" }, c: [{
-                    textarea: { name: "js" }, t: parent.querySelector("pre code").textContent },{
-                    button: { type: "submit" }
-                }]
+                form: { method: "POST", action: "http://jsfiddle.net/api/post/mootools/1.2/dependencies/more/", target: "check" }, s: { display: "none" }, c: [
+                    { textarea: { name: "js" }, t: parent.querySelector("pre code").textContent },
+                    { input: { type: "text", name: "wrap", value: "d" } },
+                    { button: { type: "submit" } }
+	    ]
             });
             document.body.appendChild(form);
             form.querySelector("button").click();

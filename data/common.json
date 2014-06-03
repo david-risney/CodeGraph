@@ -42,6 +42,15 @@
 }]
 },
 {
+"id": "inputFileChangeEvent",
+"doc": "https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Specification",
+"names": ["input file change event", "<input type='file'>", "file input"],
+"templates": [{
+"in": [],
+"out": [{"type": "File", "name": "file"}],
+"code": "var inputFile = document.createElement(\"input\");\ninputFile.type = \"file\";\ninputFile.addEventListener(\"change\", function(event) {\n\tvar file = inputFile.files[0];\n\t$next\n});\ndocument.body.appendChild(inputFile);\n"
+}]},
+{
 "id": "FileReader.readAsArrayBuffer",
 "doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsArrayBuffer",
 "names": ["readAsArrayBuffer", "FileReader.readAsArrayBuffer"],
