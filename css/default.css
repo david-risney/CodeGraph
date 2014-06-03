@@ -78,3 +78,13 @@ body > * {
 .waitForInitialized {
     opacity: 0;
 }
+
+.selectableText {
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+    cursor: text;
+}
