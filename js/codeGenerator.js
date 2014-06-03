@@ -59,7 +59,7 @@
         hljs.highlightBlock(parent);
     }
 
-    this.initializeAsync = function (codeStoreIn, listParentName) {
+    this.initializeAsync = function (codeStoreIn, listParentName, openButtonName) {
         codeStore = codeStoreIn;
         parent = document.getElementById(listParentName);
         codeStore.getGraphs().selectedSolution.addEventListener("indexChanged", function () {
@@ -69,6 +69,18 @@
                 solution = codeStore.getGraphs().solutions.getAt(index);
             }
             refresh(solution);
+        });
+
+        document.getElementById(openButtonName).addEventListener("click", function() {
+            var form = objectToHtml({
+                form: { method: "POST", action: "http://jsfiddle.net/api/post/mootools/1.2/dependencies/more/", target: "check" }, s: { display: "none" }, c: [{
+                    textarea: { name: "js" }, t: parent.querySelector("pre code").textContent },{
+                    button: { type: "submit" }
+                }]
+            });
+            document.body.appendChild(form);
+            form.querySelector("button").click();
+            form.parentNode.removeChild(form);
         });
     };
 };

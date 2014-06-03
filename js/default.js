@@ -17,7 +17,7 @@
         }).then(function () {
             return codeVisualizer.initializeAsync(codeStore, "graph");
         }).then(function () {
-            return codeGenerator.initializeAsync(codeStore, "output");
+            return codeGenerator.initializeAsync(codeStore, "output", "openInPlayground");
         }).then(function () {
             return controls.initializeAsync(codeStore);
         }).then(function () {
