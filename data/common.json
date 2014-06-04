@@ -51,6 +51,15 @@
 "code": "var inputFile = document.createElement(\"input\");\ninputFile.type = \"file\";\ninputFile.addEventListener(\"change\", function(event) {\n\tvar file = inputFile.files[0];\n\t$next\n});\ndocument.body.appendChild(inputFile);\n"
 }]},
 {
+"id": "fileDragDrop",
+"doc": "http://www.html5rocks.com/en/tutorials/file/dndfiles/",
+"names": ["drag and drop file", "file drag drop"],
+"templates": [{
+"in": [],
+"out": [{"type": "File", "name": "file"}],
+"code": "var dropElement = document.createElement(\"div\");\ndropElement.textContent = \"Drag and drop here.\";\ndropElement.style.border = \"dashed 2px black\";\ndropElement.addEventListener(\"drop\", function (event) {\n\tevent.stopPropagation();\n\tevent.preventDefault();\n\n\tvar file = event.dataTransfer.files[0];\n\t$next\n});\ndropElement.addEventListener(\"dragover\", function (event) {\n\tevent.stopPropagation();\n\tevent.preventDefault();\n\tevent.dataTransfer.dropEffect = 'copy';\n});\ndocument.body.appendChild(dropElement);\n"
+}]},
+{
 "id": "FileReader.readAsArrayBuffer",
 "doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsArrayBuffer",
 "names": ["readAsArrayBuffer", "FileReader.readAsArrayBuffer"],
