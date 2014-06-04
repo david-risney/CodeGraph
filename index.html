@@ -50,6 +50,9 @@
             <div id="output" class="fill selectableText"></div>
             <button id="openInPlayground">Open in JSFiddle</button>
         </div>
+        <div id="entryList" style="vertical-align: top; min-width: 320px; width: 40%; display: inline-block; " data-win-control="WinJS.UI.Repeater" data-win-options="{ itemDataSource: WinJSGlobalCodeStore.bindingList.dataSource }">
+            <div><a data-win-bind="{href: data.data.doc, textcontent: data.name}"></a></div>
+        </div>
         <div id="graph" style="width: 100%; min-width: 320px; display: inline-block; "></div>
     </section>
     <br />

@@ -56,9 +56,13 @@
                         startNodeIds.map(idToNode).filter(function (node) { return node; }),
                         endNodeIds.map(idToNode).filter(function (node) { return node; })
                     ).then(function (solutions) {
+                        var graphSolutions = codeStore.getGraphs().solutions;
+
+                        graphSolutions.dataSource.beginEdits();
                         solutions.forEach(function (solution) {
-                            codeStore.getGraphs().solutions.push(solution);
+                            graphSolutions.dataSource.insertAtEnd(null, solution);
                         });
+                        graphSolutions.dataSource.endEdits();
                         Progress.show(false);
                     });
                 }
