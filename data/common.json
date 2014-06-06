@@ -96,6 +96,14 @@
 "code": "var $image = document.createElement(\"img\");\nimage.addEventListener(\"load\", function() {\n\tdocument.body.appendChild(image);\n\t$next\n});\nimage.addEventListener(\"error\", function() { console.error(\"image load error\"); });\nimage.src = $imageUrl;\n"
 }]},
 {
+"id": "imgSrc",
+"names": ["img.src", "image source"],
+"templates": [{
+"in": [{"type": "HTMLImageElement", "name": "image"}],
+"out": [{"type": "url", "name": "imageUrl"}],
+"code": "var $imageUrl = $image.src;\n"
+}]},
+{
 "id": "createObjectURL",
 "doc": "http://docs.webplatform.org/wiki/apis/file/URL/createObjectURL",
 "names": ["createObjectURL", "window.URL.createObjectURL"],
