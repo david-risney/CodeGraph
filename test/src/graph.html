@@ -13,9 +13,18 @@
     <script src="../lib/qunit.js"></script>
     <script src="../../lib/winjs/js/base.js"></script>
     <script src="../../lib/winjs/js/ui.js"></script>
-    <script src="../../js/deferral.js"></script>
+    <script src="../../js/eventTarget.js"></script>
     <script src="../../js/promiseJoinWithProgress.js"></script>
+    <script src="../../js/deferral.js"></script>
+    <!-- script src="../../js/objectToHtml.js"></script -->
+    <script src="../../js/asyncReentrancyGuard.js"></script>
     <script src="../../js/graph.js"></script>
+    <!-- script src="../../js/codeStore.js"></script -->
+    <!-- script src="../../js/progress.js"></script -->
+    <!-- script src="../../js/codeVisualizer.js"></script -->
+    <!-- script src="../../js/pathLister.js"></script -->
+    <!-- script src="../../js/codeGenerator.js"></script -->
+    <!-- script src="../../js/controls.js"></script -->
     <script>
         function createGraph(links) {
             var graph = new Graph();
@@ -32,7 +41,7 @@
         asyncTest("simple two node find", 5, function() {
             var graph = createGraph([{f: "a", t: "b"}]);
 
-            graph.findShortestPathAsync(graph.getNodeById("a"), graph.getNodeById("b")).then(function (paths) {
+            Graph.findShortestPathAsync(graph.getNodeById("a"), graph.getNodeById("b")).then(function (paths) {
                 equal(paths.length, 1, "Only one path from a to b.");
                 equal(paths[0].getNodes().length, 2, "Just nodes a and b.");
                 equal(paths[0].getLinks().length, 1, "Just one link from a to b.");
@@ -58,7 +67,7 @@
                 { f: "c4", t: "a3" }
             ]);
 
-            graph.findShortestPathAsync(graph.getNodeById("a1"), graph.getNodeById("a3")).then(function (paths) {
+            Graph.findShortestPathAsync(graph.getNodeById("a1"), graph.getNodeById("a3")).then(function (paths) {
                 equal(paths.length, 1, "Only one path from a to b.");
                 equal(paths[0].getNodes().length, 3, "Just nodes a1 a2 and a3.");
                 equal(paths[0].getLinks().length, 2, "Two links from a1 to a3.");
