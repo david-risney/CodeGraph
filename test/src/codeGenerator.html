@@ -57,7 +57,7 @@
         });
 
         asyncTest("File to url", 1, function() {
-            getCodeForPathAsync("Blob", "url").then(function(code) {
+            getCodeForPathAsync("File", "url").then(function(code) {
                 equal(code, [
 'var file = null; // Your variable here.',
 'var blobUrl = URL.createObjectURL(file);',
