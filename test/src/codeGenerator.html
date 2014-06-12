@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>graph.js tests</title>
+    <link rel="stylesheet" href="../lib/qunit.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <div style="display: none; ">
+        <div id="output"></div>
+        <div id="openInPlayground"></div>
+    </div>
+    <script src="../../lib/js/es5-shim.js"></script>
+    <script src="../../lib/js/es6-shim.js"></script>
+    <script src="../lib/qunit.js"></script>
+    <script src="../../lib/winjs/js/base.js"></script>
+    <script src="../../lib/winjs/js/ui.js"></script>
+    <script src="../../js/eventTarget.js"></script>
+    <script src="../../js/promiseJoinWithProgress.js"></script>
+    <script src="../../js/deferral.js"></script>
+    <script src="../../js/objectToHtml.js"></script>
+    <script src="../../js/asyncReentrancyGuard.js"></script>
+    <script src="../../js/graph.js"></script>
+    <script src="../../js/codeStore.js"></script>
+    <!-- script src="../../js/progress.js"></script -->
+    <!-- script src="../../js/codeVisualizer.js"></script -->
+    <!-- script src="../../js/pathLister.js"></script -->
+    <script src="../../js/codeGenerator.js"></script>
+    <!-- script src="../../js/controls.js"></script -->
+    <script>
+        function getCodeForPathAsync(startId, endId) {
+            var codeStore = new CodeStore(),
+                codeGenerator = new CodeGenerator();
+
+	    return codeStore.initializeAsync(["../../data/common.json", "../../data/ie11.json", "../../data/win8.1-winrtjs.json"]).then(function() {
+                return codeGenerator.initializeAsync(codeStore, "output", "openInPlayground");
+            }).then(function() {
+                var startNode = codeStore.getGraphs().dataGraph.getNodes().filter(function(node){ return node.id == startId; })[0];
+                var endNode = codeStore.getGraphs().dataGraph.getNodes().filter(function(node){ return node.id == endId; })[0];
+                return Graph.findShortestPathAsync(startNode, endNode);
+            }).then(function(paths) {
+                return codeGenerator.pathToCode(paths[0]);
+            });
+        }
+
+        asyncTest("Blob to url", 1, function() {
+            getCodeForPathAsync("Blob", "url").then(function(code) {
+                equal(code, [
+'var blob = null; // Your variable here.',
+'var blobUrl = URL.createObjectUrl(blob);',
+'// ...'
+                    ].join("\n"), "validate code.");
+                start();
+            });
+        });
+
+        asyncTest("File to url", 1, function() {
+            getCodeForPathAsync("Blob", "url").then(function(code) {
+                equal(code, [
+'var file = null; // Your variable here.',
+'var blobUrl = URL.createObjectUrl(file);',
+'// ...'
+                    ].join("\n"), "validate code.");
+                start();
+            });
+        });
+    </script>
+</body>
+</html>

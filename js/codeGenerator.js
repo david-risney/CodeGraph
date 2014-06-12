@@ -2,9 +2,17 @@
     "use strict";
 
     var parent,
-        codeStore;
+        codeStore,
+	that = this;
 
-    function refresh(path) {
+    this.refresh = function (path) {
+        var code = that.pathToCode(path);
+        parent.innerHTML = "";
+        parent.appendChild(objectToHtml({ pre: {}, c: [{ code: {}, t: code }] }));
+        hljs.highlightBlock(parent);
+    }
+
+    this.pathToCode = function (path) {
         var code = "$next",
             clone = function (obj) { return JSON.parse(JSON.stringify(obj)); },
             existingVariables = [],
@@ -53,11 +61,8 @@
             code = code.replace("$next", codeFilled);
         });
         code = code.replace(/\t/g, "    ");
-
-        parent.innerHTML = "";
-        parent.appendChild(objectToHtml({ pre: {}, c: [{ code: {}, t: code }] }));
-        hljs.highlightBlock(parent);
-    }
+        return code;
+    };
 
     this.initializeAsync = function (codeStoreIn, listParentName, openButtonName) {
         codeStore = codeStoreIn;
@@ -68,7 +73,7 @@
             if (index < codeStore.getGraphs().solutions.length && index >= 0) {
                 solution = codeStore.getGraphs().solutions.getAt(index);
             }
-            refresh(solution);
+            that.refresh(solution);
         });
 
         document.getElementById(openButtonName).addEventListener("click", function() {
