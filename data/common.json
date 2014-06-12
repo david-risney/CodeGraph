@@ -63,6 +63,7 @@
 "id": "FileReader.readAsArrayBuffer",
 "doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsArrayBuffer",
 "names": ["readAsArrayBuffer", "FileReader.readAsArrayBuffer"],
+"cost": 2,
 "templates": [{
 "in": [{"type": "Blob", "name": "blob"}],
 "out": [{"type": "ArrayBuffer", "name": "arrayBuffer"}],
@@ -72,7 +73,7 @@
 "id": "FileReader.readAsDataURL",
 "doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsDataURL",
 "names": ["readAsDataURL", "FileReader.readAsDataURL"],
-"cost": 2,
+"cost": 4,
 "templates": [{
 "in": [{"type": "Blob", "name": "blob"}],
 "out": [{"type": "DataUrl", "name": "dataUrl"}],
@@ -82,6 +83,7 @@
 "id": "FileReader.readAsText",
 "doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsText",
 "names": ["readAsText", "FileReader.readAsText"],
+"cost": 2,
 "templates": [{
 "in": [{"type": "Blob", "name": "blob"}],
 "out": [{"type": "string", "name": "str"}],
@@ -90,6 +92,7 @@
 {
 "id": "createElementImg",
 "names": ["Create image element", "document.createElement(\"img\")", "new Image()"],
+"cost": 2,
 "templates": [{
 "in": [{"type": "url", "name": "imageUrl"}],
 "out": [{"type": "HTMLImageElement", "name": "image"}],

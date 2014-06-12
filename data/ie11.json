@@ -15,6 +15,7 @@
 "id": "MSStreamReader.readAsArrayBuffer",
 "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh453234.aspx",
 "names": ["readAsArrayBuffer", "MSStreamReader.readAsArrayBuffer"],
+"cost": 2,
 "templates": [{
 "in": [{"type": "MSStream", "name": "stream"}],
 "out": [{"type": "ArrayBuffer", "name": "arrayBuffer"}],
@@ -24,6 +25,7 @@
 "id": "MSStreamReader.readAsBlob",
 "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh441166.aspx",
 "names": ["readAsBlob", "MSStreamReader.readAsBlob"],
+"cost": 2,
 "templates": [{
 "in": [{"type": "MSStream", "name": "stream"}],
 "out": [{"type": "Blob", "name": "blob"}],
@@ -33,7 +35,7 @@
 "id": "MSStreamReader.readAsDataURL",
 "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh972609.aspx",
 "names": ["readAsDataURL", "MSStreamReader.readAsDataURL"],
-"cost": 2,
+"cost": 4,
 "templates": [{
 "in": [{"type": "MSStream", "name": "stream"}],
 "out": [{"type": "DataUrl", "name": "dataUrl"}],
@@ -43,6 +45,7 @@
 "id": "MSStreamReader.readAsText",
 "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh453241.aspx",
 "names": ["readAsText", "MSStreamReader.readAsText"],
+"cost": 2,
 "templates": [{
 "in": [{"type": "MSStream", "name": "stream"}],
 "out": [{"type": "string", "name": "str"}],

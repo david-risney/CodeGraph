@@ -49,7 +49,7 @@
             getCodeForPathAsync("Blob", "url").then(function(code) {
                 equal(code, [
 'var blob = null; // Your variable here.',
-'var blobUrl = URL.createObjectUrl(blob);',
+'var blobUrl = URL.createObjectURL(blob);',
 '// ...'
                     ].join("\n"), "validate code.");
                 start();
@@ -60,7 +60,7 @@
             getCodeForPathAsync("Blob", "url").then(function(code) {
                 equal(code, [
 'var file = null; // Your variable here.',
-'var blobUrl = URL.createObjectUrl(file);',
+'var blobUrl = URL.createObjectURL(file);',
 '// ...'
                     ].join("\n"), "validate code.");
                 start();
