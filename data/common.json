@@ -136,7 +136,7 @@
 "id": "audioSrc",
 "names": ["audio.src", "audio source"],
 "templates": [{
-"in": [{"type": "HTMLVideoElement", "name": "audio"}],
+"in": [{"type": "HTMLAudioElement", "name": "audio"}],
 "out": [{"type": "url", "name": "audioUrl"}],
 "code": "var $audioUrl = $audio.src;\n"
 }]},
