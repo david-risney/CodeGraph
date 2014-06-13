@@ -107,6 +107,40 @@
 "code": "var $imageUrl = $image.src;\n"
 }]},
 {
+"id": "createElementVideo",
+"names": ["Create video element", "document.createElement(\"video\")", "new Video()"],
+"cost": 2,
+"templates": [{
+"in": [{"type": "url", "name": "videoUrl"}],
+"out": [{"type": "HTMLVideoElement", "name": "video"}],
+"code": "var $video = document.createElement(\"video\");\nvideo.controls = \"true\";\nvideo.autoplay = \"true\";\nvideo.addEventListener(\"loadstart\", function() {\n\tdocument.body.appendChild(video);\n\t$next\n});\nvideo.addEventListener(\"error\", function() { console.error(\"video load error\"); });\nvideo.src = $videoUrl;\n"
+}]},
+{
+"id": "videoSrc",
+"names": ["video.src", "video source"],
+"templates": [{
+"in": [{"type": "HTMLVideoElement", "name": "video"}],
+"out": [{"type": "url", "name": "videoUrl"}],
+"code": "var $videoUrl = $video.src;\n"
+}]},
+{
+"id": "createElementAudio",
+"names": ["Create audio element", "document.createElement(\"audio\")", "new Audio()"],
+"cost": 2,
+"templates": [{
+"in": [{"type": "url", "name": "audioUrl"}],
+"out": [{"type": "HTMLAudioElement", "name": "audio"}],
+"code": "var $audio = document.createElement(\"audio\");\naudio.controls = \"true\";\naudio.autoplay = \"true\";\naudio.addEventListener(\"loadstart\", function() {\n\tdocument.body.appendChild(audio);\n\t$next\n});\naudio.addEventListener(\"error\", function() { console.error(\"audio load error\"); });\naudio.src = $audioUrl;\n"
+}]},
+{
+"id": "audioSrc",
+"names": ["audio.src", "audio source"],
+"templates": [{
+"in": [{"type": "HTMLVideoElement", "name": "audio"}],
+"out": [{"type": "url", "name": "audioUrl"}],
+"code": "var $audioUrl = $audio.src;\n"
+}]},
+{
 "id": "createObjectURL",
 "doc": "http://docs.webplatform.org/wiki/apis/file/URL/createObjectURL",
 "names": ["createObjectURL", "window.URL.createObjectURL"],
