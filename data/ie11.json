@@ -2,6 +2,16 @@
 "id": "ie11",
 "functions": [
 {
+"id": "XMLHttpRequestMSStream",
+"names": ["XHR MSStream", "XMLHttpRequest MSStream response"],
+"cost": 2,
+"templates": [{
+"code": "var xhr = new XMLHttpReqest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"ms-stream\";\nxhr.onreadystatechange = function () {\n\tif (xhr.readyState == xhr.LOADING) {\n\t\tvar stream = xhr.reponse;\n\t\t$next\n\t}\n}\nxhr.send();\n", 
+"in": [{"type": "XhrUrl", "name": "url"}],
+"out": [{"type": "Blob", "name": "blob"}]
+}]
+},
+{
 "id": "BlobIsaMSStream",
 "names": ["Blob isa MSStream"],
 "cost": 0,

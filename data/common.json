@@ -12,6 +12,26 @@
 }]
 },
 {
+"id": "HttpUrlIsaUrl",
+"names": ["HttpUrl isa url"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "HttpUrl", "name": "httpUrl"}],
+"out": [{"type": "url", "name": "httpUrl"}]
+}]
+},
+{
+"id": "HttpsUrlIsaUrl",
+"names": ["HttpsUrl isa url"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "HttpsUrl", "name": "httpsUrl"}],
+"out": [{"type": "url", "name": "httpsUrl"}]
+}]
+},
+{
 "id": "DataUrlIsaUrl",
 "names": ["DataUrl isa url"],
 "cost": 0,
@@ -39,6 +59,66 @@
 "code": "$next",
 "in": [{"type": "url", "name": "url"}],
 "out": [{"type": "string", "name": "url"}]
+}]
+},
+{
+"id": "HttpUrlIsaXhrUrl",
+"names": ["HttpUrl isa XhrUrl"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "HttpUrl", "name": "httpUrl"}],
+"out": [{"type": "XhrUrl", "name": "httpUrl"}]
+}]
+},
+{
+"id": "HttpsUrlIsaXhrUrl",
+"names": ["HttpsUrl isa XhrUrl"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "HttpsUrl", "name": "httpsUrl"}],
+"out": [{"type": "XhrUrl", "name": "httpsUrl"}]
+}]
+},
+{
+"id": "XMLHttpRequestString",
+"names": ["XHR string", "XMLHttpRequest string response"],
+"cost": 2,
+"templates": [{
+"code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar value = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
+"in": [{"type": "XhrUrl", "name": "url"}],
+"out": [{"type": "string", "name": "value"}]
+}]
+},
+{
+"id": "XMLHttpRequestBlob",
+"names": ["XHR Blob", "XMLHttpRequest Blob response"],
+"cost": 2,
+"templates": [{
+"code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"blob\";\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar blob = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
+"in": [{"type": "XhrUrl", "name": "url"}],
+"out": [{"type": "Blob", "name": "blob"}]
+}]
+},
+{
+"id": "XMLHttpRequestArrayBuffer",
+"names": ["XHR ArrayBuffer", "XMLHttpRequest ArrayBuffer response"],
+"cost": 2,
+"templates": [{
+"code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"arraybuffer\";\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar arrayBuffer = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
+"in": [{"type": "XhrUrl", "name": "url"}],
+"out": [{"type": "ArrayBuffer", "name": "arrayBuffer"}]
+}]
+},
+{
+"id": "XMLHttpRequestDocument",
+"names": ["XHR Document", "XMLHttpRequest Document response"],
+"cost": 2,
+"templates": [{
+"code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"document\";\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar loadedDocument = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
+"in": [{"type": "XhrUrl", "name": "url"}],
+"out": [{"type": "Document", "name": "loadedDocument"}]
 }]
 },
 {
