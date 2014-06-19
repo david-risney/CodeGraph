@@ -1,4 +1,4 @@
-﻿var Controls = function () {
+﻿var Controls = function (console) {
     "use strict";
 
     var codeStore,
@@ -47,6 +47,9 @@
                 startNodeIds = nameToIds(startNodeText);
                 endNodeIds = nameToIds(endNodeText);
 
+		console && console.log("NameToIds: " + startNodeText + " -> " + startNodeIds.join(", "));
+		console && console.log("NameToIds: " + endNodeText + " -> " + endNodeIds.join(", "));
+
                 if (startNodeIds && startNodeIds.length && endNodeIds && endNodeIds.length) {
                     Progress.show(true);
                     idToNode = codeStore.getGraphs().dataGraph.getNodeById.bind(codeStore.getGraphs().dataGraph);
@@ -54,7 +57,8 @@
 
                     Graph.findShortestPathsAsync(
                         startNodeIds.map(idToNode).filter(function (node) { return node; }),
-                        endNodeIds.map(idToNode).filter(function (node) { return node; })
+                        endNodeIds.map(idToNode).filter(function (node) { return node; }),
+			console
                     ).then(function (solutions) {
                         var graphSolutions = codeStore.getGraphs().solutions;
 
@@ -64,7 +68,15 @@
                         });
                         graphSolutions.dataSource.endEdits();
                         Progress.show(false);
-                    });
+                    }, function(error) {
+                        Progress.show(false);
+                    }, function(solution) {
+                        var graphSolutions = codeStore.getGraphs().solutions;
+
+                        graphSolutions.dataSource.beginEdits();
+                        graphSolutions.dataSource.insertAtEnd(null, solution);
+                        graphSolutions.dataSource.endEdits();
+		    });
                 }
             }
         },

@@ -3,14 +3,15 @@
 (function () {
     "use strict";
 
-    var app = WinJS.Application;
+    var app = WinJS.Application,
+        debugConsole = (document.location.host.indexOf("localhost") !== -1 ? console : null);
 
     app.onready = function () {
         var codeStore = new CodeStore(),
             codeVisualizer = new CodeVisualizer(),
             pathLister = new PathLister(),
             codeGenerator = new CodeGenerator(),
-            controls = new Controls();
+            controls = new Controls(debugConsole);
 
         WinJS.UI.processAll().then(function () {
             return codeStore.initializeAsync(["data/common.json", "data/ie11.json", "data/win8.1-winrtjs.json"]);

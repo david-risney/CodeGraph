@@ -76,6 +76,31 @@
                 start();
             });
         });
+
+        asyncTest("don't get caught in a cycle", 5, function () {
+            var graph = createGraph([
+                { f: "start", t: "a1", c: 0 },
+                { f: "a1", t: "a1", c: 0 },
+                { f: "a1", t: "a2", c: 0 },
+                { f: "a2", t: "a3", c: 0 },
+                { f: "a3", t: "a1", c: 0 },
+                { f: "a3", t: "b", c: 5 },
+                { f: "a3", t: "c1", c: 0 },
+                { f: "c1", t: "c2", c: 0 },
+                { f: "c2", t: "c3", c: 0 },
+                { f: "c3", t: "c1", c: 0 },
+                { f: "b", t: "end", c: 5 }
+            ]);
+
+            Graph.findShortestPathAsync(graph.getNodeById("start"), graph.getNodeById("end")).then(function (paths) {
+                equal(paths.length, 1, "Only one path from start to end.");
+                equal(paths[0].getNodes().length, 6, "Path length");
+                equal(paths[0].getLinks().length, 5, "Link count");
+                equal(paths[0].getFirstNode().id, "start", "From start...");
+                equal(paths[0].getLastNode().id, "end", "... to end.");
+                start();
+            });
+        });
     </script>
 </body>
 </html>

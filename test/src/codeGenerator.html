@@ -66,6 +66,13 @@
                 start();
             });
         });
+
+	asyncTest("Blob to ArrayBuffer", 1, function() {
+	    getCodeForPathAsync("Blob", "ArrayBuffer").then(function(code) {
+                equal(code, "", "validate code");
+		start();
+	    });
+	});
     </script>
 </body>
 </html>
