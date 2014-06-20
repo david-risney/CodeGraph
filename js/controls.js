@@ -34,8 +34,8 @@
         normalizeNameControls = function () {
             var startNodeText = sourceNameElement.value,
                 endNodeText = destinationNameElement.value,
-                startNodeIds,
-                endNodeIds,
+                startNodeIds = [],
+                endNodeIds = [],
                 idToNode,
 		idToName;
 
