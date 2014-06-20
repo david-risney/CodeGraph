@@ -36,29 +36,40 @@
                 endNodeText = destinationNameElement.value,
                 startNodeIds,
                 endNodeIds,
-                idToNode;
+                idToNode,
+		idToName;
 
             codeStore.getGraphs().solutions.splice(0, codeStore.getGraphs().solutions.length);
             codeStore.getGraphs().visualGraph.getNodes().forEach(function (node) {
                 node.data.selected = false;
             });
 
-            if (startNodeText && startNodeText.length && endNodeText && endNodeText.length) {
-                startNodeIds = nameToIds(startNodeText);
-                endNodeIds = nameToIds(endNodeText);
+            idToNode = codeStore.getGraphs().dataGraph.getNodeById.bind(codeStore.getGraphs().dataGraph);
+	    idToName = function(id) {
+                return codeStore.getGraphs().dataGraph.getNodeById(id).data.name;
+            };
+	    if (startNodeText && startNodeText.length) {
+                startNodeIds = nameToIds(startNodeText).filter(idToNode);
+                sourceNameElement.value = idToName(startNodeIds[0]);
+	    }
 
+	    if (endNodeText && endNodeText.length) {
+                endNodeIds = nameToIds(endNodeText).filter(idToNode);
+		destinationNameElement.value = idToName(endNodeIds[0]);
+	    }
+
+            if (startNodeIds.length && endNodeIds.length) {
 		console && console.log("NameToIds: " + startNodeText + " -> " + startNodeIds.join(", "));
 		console && console.log("NameToIds: " + endNodeText + " -> " + endNodeIds.join(", "));
 
                 if (startNodeIds && startNodeIds.length && endNodeIds && endNodeIds.length) {
                     Progress.show(true);
-                    idToNode = codeStore.getGraphs().dataGraph.getNodeById.bind(codeStore.getGraphs().dataGraph);
                     writeUrlState();
 
                     Graph.findShortestPathsAsync(
-                        startNodeIds.map(idToNode).filter(function (node) { return node; }),
-                        endNodeIds.map(idToNode).filter(function (node) { return node; }),
-			console
+                        [idToNode(startNodeIds[0])],
+                        [idToNode(endNodeIds[0])],
+			{ console: console, maxPaths: 25 }
                     ).then(function (solutions) {
                         var graphSolutions = codeStore.getGraphs().solutions;
 

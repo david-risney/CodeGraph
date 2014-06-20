@@ -12,8 +12,7 @@
                             h2: {},
                             s: { display: "inline-block" },
                             c: [
-                                { span: {}, t: (item.index ? item.index : 0) + 1 },
-                                { sup: {}, t: " of " + WinJSGlobalCodeStore.bindingList.length }
+                                { span: {}, t: (item.index ? item.index : 0) + 1 }
                             ]
                         }, {
                             div: {},

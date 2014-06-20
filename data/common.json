@@ -229,6 +229,24 @@
 "code": "var $audioUrl = $audio.src;\n"
 }]},
 {
+"id": "BlobCtor",
+"names": ["Blob constructor", "Blob ctor"],
+"templates": [{
+"in": [{"type": "ArrayBuffer", "name": "arrayBuffer"}],
+"out": [{"type": "Blob", "name": "blob"}],
+"code": "var $blob = new Blob($arrayBuffer);\n"
+},
+{
+"in": [{"type": "ArrayBufferView", "name": "arrayBufferView"}],
+"out": [{"type": "Blob", "name": "blob"}],
+"code": "var $blob = new Blob($arrayBufferView);\n"
+},
+{
+"in": [{"type": "string", "name": "value"}],
+"out": [{"type": "Blob", "name": "blob"}],
+"code": "var $blob = new Blob($value);\n"
+}]},
+{
 "id": "createObjectURL",
 "doc": "http://docs.webplatform.org/wiki/apis/file/URL/createObjectURL",
 "names": ["createObjectURL", "window.URL.createObjectURL"],

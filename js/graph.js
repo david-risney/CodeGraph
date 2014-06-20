@@ -135,6 +135,7 @@
             this.removeNext = function () {
                 return paths.pop();
             };
+	    this.length = function() { return paths.length; }
         },
         findPathsInternalAsync = function (PathsContainerCtor, nodeStart, isEndNode, options) {
             var console = options.console,
@@ -147,7 +148,7 @@
                     if (isEndNode(currentPath.getLastNode())) {
                         solutions.push(currentPath);
                         deferral.notify(currentPath);
-			console && console.log("Solution found #" + solutions.length);
+			console && console.log("Solutions found " + solutions.length);
                     }
 
                     (options.followLinksBackwards ?
@@ -161,8 +162,12 @@
                             });
 
                     if (!paths.isEmpty() && solutions.length < options.maxPaths) {
+                        if (paths.length() >= 100 && (paths.length() % 20) === 0) {
+			   console && console.log("Paths " + paths.length() + ", Solns " + solutions.length);
+			}
                         setTimeout(findPathsInternalLoopAsync, 0);
                     } else {
+                        console && console.log("Completed with " + solutions.length + " solutions.");
                         deferral.resolve(solutions);
                     }
                 };
@@ -200,27 +205,35 @@
             }
         });
 
-    Graph.findShortestPathAsyncLocal = function (startNode, endNode, console) {
-        return findPathsInternalAsync(SortedPathList, startNode, function (node) { return node === endNode; }, { maxPaths: 1, console: console });
+    Graph.findShortestPathAsyncLocal = function (startNode, endNode, options) {
+        return findPathsInternalAsync(SortedPathList, startNode, function (node) { return node === endNode; }, { maxPaths: 1, console: options.console });
     };
-    Graph.findShortestPathAsync = function (startNode, endNode, console) {
+    Graph.findShortestPathAsync = function (startNode, endNode, options) {
         return initPromise.settleAsync().then(function (result) {
-            return result.root.findShortestPathAsyncLocal(startNode, endNode, console);
+            return result.root.findShortestPathAsyncLocal(startNode, endNode, options);
         });
     };
 
-    Graph.findShortestPathsAsyncLocal = function (startNodes, endNodes, console) {
-        return promiseJoinWithProgress(product(startNodes, endNodes).map(function (args) {
+    Graph.findShortestPathsAsyncLocal = function (startNodes, endNodes, options) {
+        var deferral = new Deferral();
+        promiseJoinWithProgress(product(startNodes, endNodes).map(function (args, index) {
             return function () {
-                return findPathsInternalAsync(SortedPathList, args[0], function (node) { return node === args[1]; }, { console: console });
+                var newConsole = options.console ? { log: function (message) { options.console.log(index + " (" + args[0].data.name + " -> " + args[1].data.name + "): " + message); } } : null;
+
+                return findPathsInternalAsync(SortedPathList, args[0], function (node) { return node === args[1]; }, { maxPaths: options.maxPaths, console: newConsole });
             };
-        })).then(function (arrOfArrOfSolution) {
-            return arrOfArrOfSolution.reduce(function (total, next) { return total.concat(next); }, []);
-        });
+        }), { console: console }).then(
+	function (arrOfArrOfSolution) {
+            deferral.resolve(arrOfArrOfSolution.reduce(function (total, next) { return total.concat(next); }, []));
+        }, 
+	function (error) { deferral.reject(error); },
+	function (progress) { deferral.notify(progress); });
+
+	return deferral.promise;
     };
-    Graph.findShortestPathsAsync = function (startNodes, endNodes, console) {
+    Graph.findShortestPathsAsync = function (startNodes, endNodes, options) {
         return initPromise.settleAsync().then(function (result) {
-            return result.root.findShortestPathsAsyncLocal(startNodes, endNodes, console);
+            return result.root.findShortestPathsAsyncLocal(startNodes, endNodes, options);
         });
     };
 }());
