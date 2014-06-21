@@ -9,5 +9,15 @@
 "code": "$next",
 "in": [{"type": "Windows.Storage.Streams.IRandomAccessStream", "name": "winrtRandomAccessStream"}],
 "out": [{"type": "Windows.Storage.Streams.IInputStream", "name": "winrtRandomAccessStream"}]
-}]}
+}]},
+{
+"id": "createStreamedFileFromUriAsync",
+"names": ["Windows.Storage.StorageFile.createStreamedFileFromUriAsync", "createStreamedFileFromUriAsync"],
+"cost": 2,
+"templates": [{
+"code": "Windows.Storage.StorageFile.createStreamedFileFromUriAsync(\"file.ext\", new Windows.Foundation.Uri($url)).done(function($storageFile) {\n\t$next;\n});\n",
+"in": [{"type": "url", "name": "url"}],
+"out": [{"type": "StorageFile", "name": "storageFile"}]
+}]
+}
 ]}
