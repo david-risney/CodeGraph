@@ -206,7 +206,7 @@
         });
 
     Graph.findShortestPathAsyncLocal = function (startNode, endNode, options) {
-        return findPathsInternalAsync(SortedPathList, startNode, function (node) { return node === endNode; }, { maxPaths: 1, console: options.console });
+        return findPathsInternalAsync(SortedPathList, startNode, function (node) { return node === endNode; }, { maxPaths: 1, console: options && options.console });
     };
     Graph.findShortestPathAsync = function (startNode, endNode, options) {
         return initPromise.settleAsync().then(function (result) {
@@ -218,11 +218,11 @@
         var deferral = new Deferral();
         promiseJoinWithProgress(product(startNodes, endNodes).map(function (args, index) {
             return function () {
-                var newConsole = options.console ? { log: function (message) { options.console.log(index + " (" + args[0].data.name + " -> " + args[1].data.name + "): " + message); } } : null;
+                var newConsole = options && options.console && { log: function (message) { options.console.log(index + " (" + args[0].data.name + " -> " + args[1].data.name + "): " + message); } };
 
-                return findPathsInternalAsync(SortedPathList, args[0], function (node) { return node === args[1]; }, { maxPaths: options.maxPaths, console: newConsole });
+                return findPathsInternalAsync(SortedPathList, args[0], function (node) { return node === args[1]; }, { maxPaths: options && options.maxPaths, console: newConsole });
             };
-        }), { console: console }).then(
+        }), { console: options && options.console }).then(
 	function (arrOfArrOfSolution) {
             deferral.resolve(arrOfArrOfSolution.reduce(function (total, next) { return total.concat(next); }, []));
         }, 

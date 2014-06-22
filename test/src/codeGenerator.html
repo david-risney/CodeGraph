@@ -69,7 +69,17 @@
 
 	asyncTest("Blob to ArrayBuffer", 1, function() {
 	    getCodeForPathAsync("Blob", "ArrayBuffer").then(function(code) {
-                equal(code, "", "validate code");
+                equal(code, [
+"var blob = null; // Your variable here.",
+"var reader = new FileReader();",
+"reader.addEventListener(\"load\", function() {",
+"    var arrayBuffer = reader.result;",
+"    // ...",
+"});",
+"reader.addEventListener(\"error\", function() { console.error(reader.error); });",
+"reader.readAsArrayBuffer(blob);",
+""
+			].join("\n"), "validate code");
 		start();
 	    });
 	});

@@ -39,10 +39,10 @@
                 var existingVariable = existingVariables.filter(function (existingVariable) {
                     return existingVariable.type === inVariable.type;
                 })[0];
-                replacements.push({ oldName: inVariable.name, newName: existingVariable.name });
+                replacements.push({ oldName: inVariable.name, newName: existingVariable.newName });
             });
             newVariables = clone(data.out).map(function (newVariable) {
-                newVariable.newName = newVariable.name;
+                newVariable.newName = replacements.filter(function(entry) { return entry.oldName === newVariable.name; }).map(function(entry) { return entry.newName })[0] || newVariable.name;
                 return newVariable;
             });
             data.out.map(function (outVariable) {
