@@ -122,6 +122,16 @@
 }]
 },
 {
+"id": "DrawImageToCanvas",
+"names": ["Draw image to canvas"],
+"cost": 4,
+"templates": [{
+"code": "var canvas = document.createElement(\"canvas\");\ncanvas.style.width = canvas.width = $image.width;\ncanvas.style.height = canvas.height = $image.height;\nvar canvasContext = canvas.getContext(\"2d\");\ncanvasContext.drawImage($image, 0, 0);\ndocument.body.appendChild(canvas);\n$next",
+"in": [{"type": "HTMLImageElement", "name": "image"}],
+"out": [{"type": "Canvas", "name": "canvas"}]
+}]
+},
+{
 "id": "inputFileChangeEvent",
 "doc": "https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Specification",
 "names": ["input file change event", "<input type='file'>", "file input"],
