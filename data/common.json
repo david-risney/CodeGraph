@@ -122,13 +122,43 @@
 }]
 },
 {
+"id": "HTMLImageElementIsaCanvasDrawable",
+"names": ["HTMLImageElement isa CanvasDrawable"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "HTMLImageElement", "name": "image"}],
+"out": [{"type": "CanvasDrawable", "name": "image"}]
+}]
+},
+{
+"id": "HTMLVideoElementIsaCanvasDrawable",
+"names": ["HTMLVideoElement isa CanvasDrawable"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "HTMLVideoElement", "name": "video"}],
+"out": [{"type": "CanvasDrawable", "name": "video"}]
+}]
+},
+{
+"id": "HTMLCanvasElementIsaCanvasDrawable",
+"names": ["HTMLCanvasElement isa CanvasDrawable"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "HTMLCanvasElement", "name": "canvas"}],
+"out": [{"type": "CanvasDrawable", "name": "canvas"}]
+}]
+},
+{
 "id": "DrawImageToCanvas",
 "names": ["Draw image to canvas"],
 "cost": 4,
 "templates": [{
 "code": "var canvas = document.createElement(\"canvas\");\ncanvas.style.width = canvas.width = $image.width;\ncanvas.style.height = canvas.height = $image.height;\nvar canvasContext = canvas.getContext(\"2d\");\ncanvasContext.drawImage($image, 0, 0);\ndocument.body.appendChild(canvas);\n$next",
-"in": [{"type": "HTMLImageElement", "name": "image"}],
-"out": [{"type": "Canvas", "name": "canvas"}]
+"in": [{"type": "CanvasDrawable", "name": "image"}],
+"out": [{"type": "HTMLCanvasElement", "name": "canvas"}]
 }]
 },
 {
