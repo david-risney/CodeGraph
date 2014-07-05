@@ -71,6 +71,14 @@
 "code": "var $stream = $blob.msDetachStream();\n$next"
 }]},
 {
+"id": "canvasMsToBlob",
+"names": ["canvas.msToBlob"],
+"templates": [{
+"in": [{"type": "HTMLCanvasElement", "name": "canvas"}],
+"out": [{"type": "Blob", "name": "blob"}],
+"code": "var $blob = $canvas.msToBlob();\n$next"
+}]},
+{
 "id": "createStreamFromInputStream",
 "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh767330.aspx",
 "names": ["createStreamFromInputStream", "window.MSApp.createStreamFromInputStream"],
