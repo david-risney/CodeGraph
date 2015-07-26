@@ -1,18 +1,27 @@
-﻿html {
-    overflow: auto;
-}
-
-body {
-    background: url("../images/greyzz_@2X.png");
+﻿body {
+    background-color: rgb(235, 232, 215);
+    background: url("../images/giftly.png");
 }
 
 body > * {
-    background-color: white;
+    background-color: rgba(250, 250, 250, 0.50);
+}
+
+.niceFont {
+    font-family: sans-serif;
 }
 
 .fill {
     width: 100%;
     height: 100%;
+}
+
+.fillWidth {
+    width: 100%;
+}
+
+.tall {
+    height: 75%;
 }
 
 .borderless {
@@ -21,70 +30,36 @@ body > * {
     margin: 0;
 }
 
-.inline-block {
-    display: inline-block;
-}
-
-.node text.selected {
-    fill: black;
-    fill-opacity: 1;
-    font-size: 8pt;
-}
-
-.node text.unselected {
-    fill: gray;
-    fill-opacity: 0.5;
-    font-size: 6pt;
-}
-
-.node circle.selected {
-    fill-opacity: 1;
-}
-
-.node circle.unselected {
-    fill-opacity: 0.5;
-}
-
-.link {
-    fill: none;
-}
-
-.link.marker.selected {
-    fill: #bbb;
-}
-
-.link.marker.unselected {
-    fill: #999;
-}
-
-    .link.selected {
-        stroke: #999;
-        stroke-width: 3;
-    }
-
-.selected.marker {
-    marker-end: url(#TriangleSelected);
-}
-
-.link.unselected {
-    stroke: #bbb;
-    stroke-width: 2;
-}
-
-.unselected.marker {
-    marker-end: url(#TriangleUnselected);
-}
-
 .waitForInitialized {
     opacity: 0;
+    transition: opacity 0.05s;
 }
 
-.selectableText {
-    -webkit-touch-callout: text;
-    -webkit-user-select: text;
-    -khtml-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-    cursor: text;
+.displayNone {
+    display: none;
 }
+
+.containerBorder {
+    margin-top: 0;
+    margin-bottom: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding: 1em;
+    width: calc(100% - 4em);
+    min-width: 320px;
+}
+
+.verticalFlow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.horizontalFlow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+

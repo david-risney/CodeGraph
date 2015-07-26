@@ -115,7 +115,13 @@
             this.getLinks = function () { return pLinks; };
             this.getNodes = function () { return [firstNode].concat(pLinks.map(function (link) { return link.inNode; })); };
             this.getTotalCost = function () {
-                return pLinks.reduce(function (total, link) { return total + (link.cost || 0); }, 0);
+                return pLinks.reduce(function (total, link) { 
+                    var linkCost = link.cost;
+                    if (linkCost === null || linkCost === undefined) {
+                        linkCost = 1;
+                    }
+                    return total + link.cost;
+                }, 0);
             };
             this.getFirstNode = function () {
                 return firstNode;
@@ -135,11 +141,11 @@
             this.removeNext = function () {
                 return paths.pop();
             };
-	    this.length = function() { return paths.length; }
+            this.length = function() { return paths.length; }
         },
         findPathsInternalAsync = function (PathsContainerCtor, nodeStart, isEndNode, options) {
             var console = options.console,
-	        paths = new PathsContainerCtor(),
+                paths = new PathsContainerCtor(),
                 solutions = [],
                 deferral = new Deferral(),
                 findPathsInternalLoopAsync = function () {
@@ -148,7 +154,7 @@
                     if (isEndNode(currentPath.getLastNode())) {
                         solutions.push(currentPath);
                         deferral.notify(currentPath);
-			console && console.log("Solutions found " + solutions.length);
+                        console && console.log("Solutions found " + solutions.length);
                     }
 
                     (options.followLinksBackwards ?
@@ -163,8 +169,8 @@
 
                     if (!paths.isEmpty() && solutions.length < options.maxPaths) {
                         if (paths.length() >= 100 && (paths.length() % 20) === 0) {
-			   console && console.log("Paths " + paths.length() + ", Solns " + solutions.length);
-			}
+                           console && console.log("Paths " + paths.length() + ", Solns " + solutions.length);
+                        }
                         setTimeout(findPathsInternalLoopAsync, 0);
                     } else {
                         console && console.log("Completed with " + solutions.length + " solutions.");
@@ -223,17 +229,79 @@
                 return findPathsInternalAsync(SortedPathList, args[0], function (node) { return node === args[1]; }, { maxPaths: options && options.maxPaths, console: newConsole });
             };
         }), { console: options && options.console }).then(
-	function (arrOfArrOfSolution) {
+        function (arrOfArrOfSolution) {
             deferral.resolve(arrOfArrOfSolution.reduce(function (total, next) { return total.concat(next); }, []));
         }, 
-	function (error) { deferral.reject(error); },
-	function (progress) { deferral.notify(progress); });
+        function (error) { deferral.reject(error); },
+        function (progress) { deferral.notify(progress); });
 
-	return deferral.promise;
+        return deferral.promise;
     };
     Graph.findShortestPathsAsync = function (startNodes, endNodes, options) {
         return initPromise.settleAsync().then(function (result) {
             return result.root.findShortestPathsAsyncLocal(startNodes, endNodes, options);
+        });
+    };
+
+    Graph.findShortestPathsWithRequiredNodesAsyncLocal = function (requiredNodes, options) {
+        var deferral = new Deferral();
+        function countRequiredNodesInPath(requiredNodes, path) {
+            var pathNodes = path.getNodes();
+            var requiredNodesIndex = 0;
+            for (var pathNodesIndex = 0; 
+                pathNodesIndex < pathNodes.length && 
+                requiredNodesIndex < requiredNodes.length; 
+                ++pathNodesIndex) {
+
+                if (pathNodes[pathNodesIndex] == requiredNodes[requiredNodesIndex]) {
+                    ++requiredNodesIndex;
+                }
+            }
+
+            return requiredNodesIndex;
+        }
+
+        function sortedPathWithRequiredNodesList(requiredNodes) {
+            return function () {
+                var paths = [];
+                this.add = function (path) {
+                    paths.push(path);
+                    paths = paths.sort(function (pathLeft, pathRight) { 
+                        var requiredNodesDiff = (countRequiredNodesInPath(requiredNodes, pathLeft) - countRequiredNodesInPath(requiredNodes, pathRight));
+                        var costDiff = -(pathLeft.getTotalCost() - pathRight.getTotalCost());
+                        return requiredNodesDiff == 0 ? costDiff : requiredNodesDiff;
+                    });
+                    return path;
+                };
+                this.isEmpty = function () { return !paths.length; };
+                this.removeNext = function () {
+                    return paths.pop();
+                };
+                this.length = function() { return paths.length; }
+            };
+        }
+
+        findPathsInternalAsync(
+            sortedPathWithRequiredNodesList(requiredNodes), 
+            requiredNodes[0],
+            function (node) { return node === requiredNodes[requiredNodes.length - 1]; },
+            { maxPaths: options && options.maxPaths }).then(function (paths) {
+                deferral.resolve(paths.filter(function (path) {
+                    return countRequiredNodesInPath(requiredNodes, path) === requiredNodes.length;
+                }));
+            }, function (error) {
+                deferral.error(error);
+            }, function (path) {
+                if (countRequiredNodesInPath(requiredNodes, path) === requiredNodes.length) {
+                    deferral.notify(path);
+                }
+            });
+
+        return deferral.promise;
+    };
+    Graph.findShortestPathsWithRequiredNodesAsync = function (requiredNodes, options) {
+        return initPromise.settleAsync().then(function (result) {
+            return result.root.findShortestPathsWithRequiredNodesAsyncLocal(requiredNodes, options);
         });
     };
 }());

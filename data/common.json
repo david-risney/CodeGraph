@@ -152,6 +152,26 @@
 }]
 },
 {
+"id": "CanvasDrawableIsaUserOutput",
+"names": ["CanvasDrawable isa UserOutput"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "CanvasDrawable", "name": "canvas"}],
+"out": [{"type": "UserOutput", "name": "canvas"}]
+}]
+},
+{
+"id": "HTMLTextAreaElementIsaUserOutput",
+"names": ["HTMLTextAreaElement isa UserOutput"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "HTMLTextAreaElement", "name": "element"}],
+"out": [{"type": "UserOutput", "name": "element"}]
+}]
+},
+{
 "id": "DrawImageToCanvas",
 "names": ["Draw image to canvas"],
 "cost": 4,
@@ -186,6 +206,22 @@
 "in": [{"type": "UserInput", "name": "userInput"}],
 "out": [{"type": "string", "name": "input"}],
 "code": "var inputElement = document.createElement(\"input\");\ninputElement.type = \"text\";\ninputElement.addEventListener(\"blur\", function (event) {\n\tvar input = inputElement.value;\n\t$next\n});\ndocument.body.appendChild(inputElement);\n"
+}]},
+{
+"id": "inputUrl",
+"names": ["input type='url'", "url input"],
+"templates": [{
+"in": [{"type": "UserInput", "name": "userInput"}],
+"out": [{"type": "url", "name": "input"}],
+"code": "var inputElement = document.createElement(\"input\");\ninputElement.type = \"url\";\ninputElement.addEventListener(\"blur\", function (event) {\n\tvar input = inputElement.value;\n\t$next\n});\ndocument.body.appendChild(inputElement);\n"
+}]},
+{
+"id": "textArea",
+"names": ["text area", "textarea"],
+"templates": [{
+"in": [{"type": "string", "name": "value"}],
+"out": [{"type": "HTMLTextAreaElement", "name": "element"}],
+"code": "var $element = document.createElement(\"textarea\");\nelement.textContent = $value;\nelement.style.width = '100%';\nelement.style.height = '7em';\ndocument.body.appendChild(element);\n"
 }]},
 {
 "id": "FileReader.readAsArrayBuffer",

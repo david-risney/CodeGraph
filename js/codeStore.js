@@ -1,28 +1,10 @@
-﻿var CodeStore = (function () {
+﻿// Owns parsing API data, constructing a graph of that data, and turning that
+// paths into useful info.
+var CodeStore = (function () {
     "use strict";
-
-    var SelectedValue = function () {
-        var eventTarget = new EventTarget(this, ["indexChanged"]),
-            selectedIndex = -1;
-
-        this.setIndex = function (newSelectedIndex) {
-            selectedIndex = newSelectedIndex;
-            eventTarget.dispatchIndexChangedEvent(this);
-        };
-
-        this.getIndex = function () {
-            return selectedIndex;
-        };
-    };
-
-    WinJS.Namespace.define("WinJSGlobalCodeStore", {
-        bindingList: new WinJS.Binding.List([])
-    });
 
     return function () {
         var inputData = {},
-            solutions = WinJSGlobalCodeStore.bindingList,
-            selectedSolution = new SelectedValue(),
             visualGraphState = new Graph(),
             dataGraphState = new Graph(),
             toProperties = function (object) {
@@ -57,7 +39,7 @@
                             nodeName += " (" + idx + ")";
                         }
 
-                        dataFunctionNode = dataGraphState.addNode(nodeId, { name: nodeName, data: template, group: 1, visualNode: undefined });
+                        dataFunctionNode = dataGraphState.addNode(nodeId, { name: nodeName, doc: fnDef.doc, data: template, group: 1, visualNode: undefined });
 
                         dataFunctionNode.data.visualNode = visualFunctionNode;
                         visualFunctionNode.data.dataNodes.push(dataFunctionNode);
@@ -111,9 +93,59 @@
             return {
                 visualGraph: visualGraphState,
                 dataGraph: dataGraphState,
-                solutions: solutions,
-                selectedSolution: selectedSolution
             };
+        };
+
+        this.pathToCode = function (path) {
+            var code = "$next",
+                clone = function (obj) { return JSON.parse(JSON.stringify(obj)); },
+                existingVariables = [],
+                frames = path ? path.getNodes().filter(function (node) { return node.data.data.code; }).map(function (node) { return node.data.data; }) : [],
+                firstFrame = { code: "", "in": [], out: [] },
+                secondFrame = frames.length ? frames[0] : null,
+                lastFrame = { code: "// ...", "in": [], out: [] };
+
+            if (secondFrame) {
+                firstFrame.out = secondFrame.in;
+                firstFrame.code = firstFrame.out.map(function (outVariable) {
+                    return "var $" + outVariable.name + " = null; // Your variable here.";
+                }).join("\n") + "\n$next";
+                frames = [firstFrame].concat(frames).concat([lastFrame]);
+            }
+
+            frames.forEach(function (data) {
+                var codeFilled = data.code,
+                    replacements = [],
+                    newVariables = [],
+                    indent = "";
+
+                data.in.map(function (inVariable) {
+                    var existingVariable = existingVariables.filter(function (existingVariable) {
+                        return existingVariable.type === inVariable.type;
+                    })[0];
+                    replacements.push({ oldName: inVariable.name, newName: existingVariable.newName });
+                });
+                newVariables = clone(data.out).map(function (newVariable) {
+                    newVariable.newName = replacements.filter(function(entry) { return entry.oldName === newVariable.name; }).map(function(entry) { return entry.newName })[0] || newVariable.name;
+                    return newVariable;
+                });
+                data.out.map(function (outVariable) {
+                    var existingReplacement = replacements.filter(function (entry) { return entry.oldName === outVariable.name; })[0];
+                    replacements.push(existingReplacement || { oldName: outVariable.name, newName: outVariable.name });
+                });
+                existingVariables = existingVariables.concat(newVariables);
+
+                codeFilled = replacements.sort(function (left, right) { return right.oldName.length - left.oldName.length; }).
+                    reduce(function (codeFilled, entry) { return codeFilled.replace("$" + entry.oldName, entry.newName); }, codeFilled);
+
+                indent = /\n(\t*)\$next/.exec(code);
+                indent = (indent && indent[1]) || "";
+
+                codeFilled = codeFilled.split("\n").map(function (line, idx) { return idx === 0 ? line : indent + line; }).join("\n");
+                code = code.replace("$next", codeFilled);
+            });
+            code = code.replace(/\t/g, "    ");
+            return code;
         };
     };
 }());
