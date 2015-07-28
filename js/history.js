@@ -39,9 +39,14 @@ var History = (function (appState) {
         if (params.hasOwnProperty("index")) {
             appState.selectedSolution.setIndex(parseInt(params.index[0]));
         }
+
         if (params.hasOwnProperty("q")) {
             appState.pathRequirements.set(params.q);
         }
+        else if (params.hasOwnProperty("from") && params.hasOwnProperty("to")) {
+            appState.pathRequirements.set(params.from.concat(params.to));
+        }
+
         if (params.hasOwnProperty("t")) {
             appState.targetList.set(params.t);
         }
