@@ -84,5 +84,7 @@ var PathListerUI = (function (appState) {
 
         appState.solutionList.addEventListener("sizeChanged", update);
         appState.selectedSolution.addEventListener("indexChanged", update);
+
+        update();
     };
 });

@@ -79,9 +79,47 @@ var PathRequirementsUI = (function (codeStore, appState) {
         }
     });
 
+    appState.targetList.addEventListener("changed", function () {
+        var targets = appState.targetList.get();
+        var optionValue = "browser";
+        var select = document.getElementById("targetList");
+
+        if (targets.indexOf("data/win8.1-winrtjs.json") >= 0) {
+            optionValue = "win81";
+        } else if (targets.indexOf("data/ie11.json") >= 0) {
+            optionValue = "ie11";
+        }
+        // else rely on initial default of browser
+
+        arrayFrom(select.querySelector("option")).forEach(function (option) {
+            option.selected = (option.getAttribute("value") === optionValue);
+        });
+    });
+
     this.initializeAsync = function () {
         updateDataList();
         updateInputsCount();
         updateAppDataFromInputs();
+
+        document.getElementById("targetList").addEventListener("change", function () {
+            var select = document.getElementById("targetList");
+            var option = arrayFrom(select.querySelector("option")).filter(function (option) {
+                return option.selected;
+            })[0];
+            var targets = ["data/common.json"];
+
+            switch (option.value) {
+            default:
+            case "browser":
+                break;
+            case "ie11":
+                targets = ["data/common.json", "data/ie11.json"];
+                break;
+            case "win81":
+                targets = ["data/common.json", "data/ie11.json", "data/win8.1-winrtjs.json"];
+                break;
+            }
+            appState.targetList.set(targets);
+        });
     };
 });

@@ -5,7 +5,10 @@ var History = (function (appState) {
         }
 
         return paramsString.split("&").map(function (nameValueString) {
-            return nameValueString.split("=").map(decodeURIComponent);
+            return nameValueString.split("=");
+        }).map(function (nameValuePair) {
+            nameValuePair[1] = nameValuePair[1].split(",").map(decodeURIComponent);
+            return nameValuePair;
         }).reduce(function (collection, next) {
             collection[next[0]] = next[1];
             return collection;
@@ -13,8 +16,16 @@ var History = (function (appState) {
     }
 
     function constructQuery(params, prefix) {
+        function stringify(value) {
+            var string = value.toString();
+            if (value.length > 0 && value.map) {
+                string = value.map(encodeURIComponent).join(",");
+            }
+            return string;
+        }
+
         var paramsString = Object.keys(params).map(function (keyName) {
-            return [keyName, params[keyName]].map(encodeURIComponent).join("=");
+            return [encodeURIComponent(keyName), stringify(params[keyName])].join("=");
         }).join("&");
 
         if (prefix) {
@@ -26,11 +37,13 @@ var History = (function (appState) {
     function applyParamsToState(paramsString) {
         var params = parseQuery(paramsString);
         if (params.hasOwnProperty("index")) {
-            appState.selectedSolution.setIndex(params.index);
+            appState.selectedSolution.setIndex(parseInt(params.index[0]));
         }
         if (params.hasOwnProperty("q")) {
-            appState.pathRequirements.set(
-                params.q.split(",").map(decodeURIComponent));
+            appState.pathRequirements.set(params.q);
+        }
+        if (params.hasOwnProperty("t")) {
+            appState.targetList.set(params.t);
         }
     }
 
@@ -38,12 +51,16 @@ var History = (function (appState) {
         var params = { };
         var index = appState.selectedSolution.getIndex();
         var requiredNodes = appState.pathRequirements.get();
+        var targetList = appState.targetList.get();
 
         if (index > 0) {
-            params.index = "" + index;
+            params.index = index;
         }
         if (requiredNodes.length > 0) {
-            params.q = requiredNodes.map(encodeURIComponent).join(",");
+            params.q = requiredNodes;
+        }
+        if (targetList.length !== 1) { // Need a better more generic way of telling if we have the default value and so don't want to serialize something out.
+            params.t = targetList;
         }
         return constructQuery(params);
     }
@@ -75,6 +92,10 @@ var History = (function (appState) {
     });
 
     appState.selectedSolution.addEventListener("indexChanged", function () {
+        pushState();
+    });
+
+    appState.targetList.addEventListener("changed", function () {
         pushState();
     });
 });

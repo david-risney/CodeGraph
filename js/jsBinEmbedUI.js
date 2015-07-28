@@ -39,5 +39,7 @@ var JsBinEmbedUI = (function (codeStore, appState) {
     this.initializeAsync = function () {
         appState.solutionList.addEventListener("sizeChanged", update);
         appState.selectedSolution.addEventListener("indexChanged", update);
+
+        update();
     };
 });

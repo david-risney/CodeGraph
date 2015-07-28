@@ -20,6 +20,7 @@
     <script src="js/codeStore.js"></script>
     <script src="js/progress.js"></script>
     <script src="js/appState.js"></script>
+    <script src="js/appLogic.js"></script>
     <script src="js/pathListerUI.js"></script>
     <script src="js/pathRequirementsUI.js"></script>
     <script src="js/jsBinEmbedUI.js"></script>
@@ -35,6 +36,11 @@
     <section class="waitForInitialized containerBorder horizontalFlow">
         <!-- PathRequirementsUI owns this section -->
         <section id="inputEntries" class="verticalFlow">
+            <select id="targetList">
+                <option value="browser" selected="selected">Browser</option>
+                <option value="ie11">Internet Explorer 11</option>
+                <option value="win81">JS Win8.1 Application</option>
+            </select>
             <div>Enter the types or methods in order:</div>
             <datalist class"displayNone" id="validMethodsAndTypes"></datalist>
             <input id="nodeNameInputTemplate" class="displayNone" type="text" list="validMethodsAndTypes" placeholder="Method or type" />
