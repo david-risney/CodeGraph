@@ -221,7 +221,7 @@
 "templates": [{
 "in": [{"type": "string", "name": "value"}],
 "out": [{"type": "HTMLTextAreaElement", "name": "element"}],
-"code": "var $element = document.createElement(\"textarea\");\nelement.textContent = $value;\nelement.style.width = '100%';\nelement.style.height = '7em';\ndocument.body.appendChild(element);\n"
+"code": "var $element = document.createElement(\"textarea\");\nelement.textContent = $value;\nelement.style.width = '100%';\nelement.style.height = '7em';\ndocument.body.appendChild(element);\n$next"
 }]},
 {
 "id": "FileReader.readAsArrayBuffer",
@@ -268,7 +268,7 @@
 "templates": [{
 "in": [{"type": "HTMLImageElement", "name": "image"}],
 "out": [{"type": "url", "name": "imageUrl"}],
-"code": "var $imageUrl = $image.src;\n"
+"code": "var $imageUrl = $image.src;\n$next"
 }]},
 {
 "id": "createElementVideo",
@@ -285,7 +285,7 @@
 "templates": [{
 "in": [{"type": "HTMLVideoElement", "name": "video"}],
 "out": [{"type": "url", "name": "videoUrl"}],
-"code": "var $videoUrl = $video.src;\n"
+"code": "var $videoUrl = $video.src;\n$next"
 }]},
 {
 "id": "createElementAudio",
@@ -302,7 +302,7 @@
 "templates": [{
 "in": [{"type": "HTMLAudioElement", "name": "audio"}],
 "out": [{"type": "url", "name": "audioUrl"}],
-"code": "var $audioUrl = $audio.src;\n"
+"code": "var $audioUrl = $audio.src;\n$next"
 }]},
 {
 "id": "BlobCtor",
@@ -310,17 +310,17 @@
 "templates": [{
 "in": [{"type": "ArrayBuffer", "name": "arrayBuffer"}],
 "out": [{"type": "Blob", "name": "blob"}],
-"code": "var $blob = new Blob($arrayBuffer);\n"
+"code": "var $blob = new Blob([$arrayBuffer], {type: 'application/octet-binary'});\n$next"
 },
 {
 "in": [{"type": "ArrayBufferView", "name": "arrayBufferView"}],
 "out": [{"type": "Blob", "name": "blob"}],
-"code": "var $blob = new Blob($arrayBufferView);\n"
+"code": "var $blob = new Blob([$arrayBufferView], {type: 'application/octet-binary'});\n$next"
 },
 {
 "in": [{"type": "string", "name": "value"}],
 "out": [{"type": "Blob", "name": "blob"}],
-"code": "var $blob = new Blob($value);\n"
+"code": "var $blob = new Blob([$value], {type: 'text/plain'});\n$next"
 }]},
 {
 "id": "createObjectURL",

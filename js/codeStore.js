@@ -23,7 +23,27 @@ var CodeStore = (function () {
             visualGraphState = new Graph();
             dataGraphState = new Graph();
         },
+        validateInputData = function (data) {
+            function validateBase(file, id, condition, msg) { 
+                if (!condition) {
+                    console.error("inputData validation failure " + file + ", " + id + ": " + msg);
+                }
+            }
+            data.functions.forEach(function (func) {
+                var validate = validateBase.bind(null, data.id, func.id);
+
+                validate(func.id && func.id.length > 0, "Missing id");
+                validate(func.names.length > 0, "Missing name");
+                validate(func.cost === undefined || func.cost >= 0, "Cost must not be negative");
+                validate(func.templates.length > 0, "Missing template");
+                func.templates.forEach(function (template) {
+                    validate(template.code && template.code.length > 0, "Missing code");
+                    validate(template.code.indexOf("$next") >= 0, "Missing $next in code.");
+                });
+            });
+        },
         addInputData = function (data) {
+            validateInputData(data);
             inputData[data.id] = data;
         },
         processDataAsync = function (data) {
@@ -128,9 +148,10 @@ var CodeStore = (function () {
                 indent = "";
 
             data.in.map(function (inVariable) {
-                var existingVariable = existingVariables.filter(function (existingVariable) {
+                var filteredExistingVariables = existingVariables.filter(function (existingVariable) {
                     return existingVariable.type === inVariable.type;
-                })[0];
+                });
+                var existingVariable = filteredExistingVariables[filteredExistingVariables.length - 1];
                 replacements.push({ oldName: inVariable.name, newName: existingVariable.newName });
             });
             newVariables = clone(data.out).map(function (newVariable) {
