@@ -39,7 +39,7 @@
 "templates": [{
 "in": [{"type": "MSStream", "name": "stream"}],
 "out": [{"type": "Blob", "name": "blob"}],
-"code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $blob = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsArrayBuffer($stream);\n"
+"code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $blob = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsBlob($stream);\n"
 }]},
 {
 "id": "MSStreamReader.readAsDataURL",
