@@ -91,7 +91,7 @@ var PathRequirementsUI = (function (codeStore, appState) {
         }
         // else rely on initial default of browser
 
-        arrayFrom(select.querySelector("option")).forEach(function (option) {
+        arrayFrom(select.querySelectorAll("option")).forEach(function (option) {
             option.selected = (option.getAttribute("value") === optionValue);
         });
     });
@@ -103,7 +103,7 @@ var PathRequirementsUI = (function (codeStore, appState) {
 
         document.getElementById("targetList").addEventListener("change", function () {
             var select = document.getElementById("targetList");
-            var option = arrayFrom(select.querySelector("option")).filter(function (option) {
+            var option = arrayFrom(select.querySelectorAll("option")).filter(function (option) {
                 return option.selected;
             })[0];
             var targets = ["data/common.json"];
@@ -121,5 +121,7 @@ var PathRequirementsUI = (function (codeStore, appState) {
             }
             appState.targetList.set(targets);
         });
+
+        codeStore.addEventListener("inputDataChanged", updateDataList);
     };
 });
