@@ -52,6 +52,26 @@
 }]
 },
 {
+"id": "PercentEncodedStringIsaString",
+"names": ["percent-encoded string isa string"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "percent-encoded string", "name": "value"}],
+"out": [{"type": "string", "name": "value"}]
+}]
+},
+{
+"id": "Base64EncodedStringIsaString",
+"names": ["base64 encoded string isa string"],
+"cost": 0,
+"templates": [{
+"code": "$next",
+"in": [{"type": "base64 encoded string", "name": "value"}],
+"out": [{"type": "string", "name": "value"}]
+}]
+},
+{
 "id": "UrlIsaString",
 "names": ["url isa string"],
 "cost": 0,
@@ -262,6 +282,46 @@
 "out": [{"type": "HTMLImageElement", "name": "image"}],
 "code": "var $image = document.createElement(\"img\");\nimage.addEventListener(\"load\", function() {\n\tdocument.body.appendChild(image);\n\t$next\n});\nimage.addEventListener(\"error\", function() { console.error(\"image load error\"); });\nimage.src = $imageUrl;\n"
 }]},
+{
+    "id": "decodeURIComponent",
+    "names": ["decodeURIComponent"],
+    "cost": 1,
+    "templates": [{
+        "in": [{"type": "percent-encoded string", "name": "percentEncodedString"}],
+        "out": [{"type": "string", "name": "value"}],
+        "code": "var $value = decodeURIComponent($percentEncodedString);\n$next"
+    }]
+},
+{
+    "id": "encodeURIComponent",
+    "names": ["encodeURIComponent"],
+    "cost": 1,
+    "templates": [{
+        "in": [{"type": "string", "name": "value"}],
+        "out": [{"type": "percent-encoded string", "name": "percentEncodedString"}],
+        "code": "var $percentEncodedString = encodeURIComponent($value);\n$next"
+    }]
+},
+{
+    "id": "atob",
+    "names": ["atob"],
+    "cost": 1,
+    "templates": [{
+        "in": [{"type": "base64 encoded string", "name": "base64EncodedString"}],
+        "out": [{"type": "string", "name": "value"}],
+        "code": "var $value = atob($base64EncodedString);\n$next"
+    }]
+},
+{
+    "id": "btoa",
+    "names": ["btoa"],
+    "cost": 1,
+    "templates": [{
+        "in": [{"type": "string", "name": "value"}],
+        "out": [{"type": "base64 encoded string", "name": "base64EncodedString"}],
+        "code": "var $base64EncodedString = btoa($value);\n$next"
+    }]
+},
 {
 "id": "imgSrc",
 "names": ["img.src", "image source"],
