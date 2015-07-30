@@ -1,11 +1,13 @@
 var History = (function (appState) {
     function parseQuery(paramsString) {
-        if (paramsString[0] === "?" || paramsString[1] === "#") {
+        if (paramsString[0] === "?" || paramsString[0] === "#") {
             paramsString = paramsString.substr(1);
         }
 
         return paramsString.split("&").map(function (nameValueString) {
             return nameValueString.split("=");
+        }).filter(function (nameValuePair) {
+            return nameValuePair.length === 2;
         }).map(function (nameValuePair) {
             nameValuePair[1] = nameValuePair[1].split(",").map(decodeURIComponent);
             return nameValuePair;
