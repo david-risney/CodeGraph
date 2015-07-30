@@ -213,11 +213,12 @@
 {
 "id": "fileDragDrop",
 "doc": "http://www.html5rocks.com/en/tutorials/file/dndfiles/",
+"cost": 2,
 "names": ["drag and drop file", "file drag drop"],
 "templates": [{
 "in": [{"type": "UserInput", "name": "userInput"}],
 "out": [{"type": "File", "name": "file"}],
-"code": "var dropElement = document.createElement(\"div\");\ndropElement.textContent = \"Drag and drop here.\";\ndropElement.style.border = \"dashed 2px black\";\ndropElement.addEventListener(\"drop\", function (event) {\n\tevent.stopPropagation();\n\tevent.preventDefault();\n\n\tvar file = event.dataTransfer.files[0];\n\t$next\n});\ndropElement.addEventListener(\"dragover\", function (event) {\n\tevent.stopPropagation();\n\tevent.preventDefault();\n\tevent.dataTransfer.dropEffect = 'copy';\n});\ndocument.body.appendChild(dropElement);\n"
+"code": "var dropElement = document.createElement(\"div\");\ndropElement.textContent = \"Drag and drop here.\";\ndropElement.style.height = \"100px\";\ndropElement.style.border = \"dashed 2px black\";\ndropElement.addEventListener(\"drop\", function (event) {\n\tif (event.stopPropagation) {\n\t\tevent.stopPropagation();\n\t}\n\tevent.preventDefault();\n\n\tvar file = event.dataTransfer.files[0];\n\t$next\n});\ndropElement.addEventListener(\"dragover\", function (event) {\n\tevent.preventDefault();\n\tevent.dataTransfer.dropEffect = 'copy';\n\treturn false;\n});\ndocument.body.appendChild(dropElement);\n"
 }]},
 {
 "id": "inputText",
