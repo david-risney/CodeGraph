@@ -1,404 +1,378 @@
 ﻿{
-"id": "common",
-"functions": [
-{
-"id": "FileIsaBlob",
-"names": ["File isa Blob"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "File", "name": "file"}],
-"out": [{"type": "Blob", "name": "file"}]
-}]
-},
-{
-"id": "HttpUrlIsaUrl",
-"names": ["HttpUrl isa url"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "HttpUrl", "name": "httpUrl"}],
-"out": [{"type": "url", "name": "httpUrl"}]
-}]
-},
-{
-"id": "HttpsUrlIsaUrl",
-"names": ["HttpsUrl isa url"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "HttpsUrl", "name": "httpsUrl"}],
-"out": [{"type": "url", "name": "httpsUrl"}]
-}]
-},
-{
-"id": "DataUrlIsaUrl",
-"names": ["DataUrl isa url"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "DataUrl", "name": "dataUrl"}],
-"out": [{"type": "url", "name": "dataUrl"}]
-}]
-},
-{
-"id": "BlobUrlIsaUrl",
-"names": ["BlobUrl isa url"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "BlobUrl", "name": "blobUrl"}],
-"out": [{"type": "url", "name": "blobUrl"}]
-}]
-},
-{
-"id": "PercentEncodedStringIsaString",
-"names": ["percent-encoded string isa string"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "percent-encoded string", "name": "value"}],
-"out": [{"type": "string", "name": "value"}]
-}]
-},
-{
-"id": "Base64EncodedStringIsaString",
-"names": ["base64 encoded string isa string"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "base64 encoded string", "name": "value"}],
-"out": [{"type": "string", "name": "value"}]
-}]
-},
-{
-"id": "UrlIsaString",
-"names": ["url isa string"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "url", "name": "url"}],
-"out": [{"type": "string", "name": "url"}]
-}]
-},
-{
-"id": "HttpUrlIsaXhrUrl",
-"names": ["HttpUrl isa XhrUrl"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "HttpUrl", "name": "httpUrl"}],
-"out": [{"type": "XhrUrl", "name": "httpUrl"}]
-}]
-},
-{
-"id": "HttpsUrlIsaXhrUrl",
-"names": ["HttpsUrl isa XhrUrl"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "HttpsUrl", "name": "httpsUrl"}],
-"out": [{"type": "XhrUrl", "name": "httpsUrl"}]
-}]
-},
-{
-"id": "XMLHttpRequestString",
-"names": ["XHR string", "XMLHttpRequest string response"],
-"cost": 2,
-"templates": [{
-"code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar value = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
-"in": [{"type": "XhrUrl", "name": "url"}],
-"out": [{"type": "string", "name": "value"}]
-}]
-},
-{
-"id": "XMLHttpRequestBlob",
-"names": ["XHR Blob", "XMLHttpRequest Blob response"],
-"cost": 2,
-"templates": [{
-"code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"blob\";\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar blob = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
-"in": [{"type": "XhrUrl", "name": "url"}],
-"out": [{"type": "Blob", "name": "blob"}]
-}]
-},
-{
-"id": "XMLHttpRequestArrayBuffer",
-"names": ["XHR ArrayBuffer", "XMLHttpRequest ArrayBuffer response"],
-"cost": 2,
-"templates": [{
-"code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"arraybuffer\";\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar arrayBuffer = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
-"in": [{"type": "XhrUrl", "name": "url"}],
-"out": [{"type": "ArrayBuffer", "name": "arrayBuffer"}]
-}]
-},
-{
-"id": "XMLHttpRequestDocument",
-"names": ["XHR Document", "XMLHttpRequest Document response"],
-"cost": 2,
-"templates": [{
-"code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"document\";\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar loadedDocument = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
-"in": [{"type": "XhrUrl", "name": "url"}],
-"out": [{"type": "Document", "name": "loadedDocument"}]
-}]
-},
-{
-"id": "HTMLImageElementIsaCanvasDrawable",
-"names": ["HTMLImageElement isa CanvasDrawable"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "HTMLImageElement", "name": "image"}],
-"out": [{"type": "CanvasDrawable", "name": "image"}]
-}]
-},
-{
-"id": "HTMLVideoElementIsaCanvasDrawable",
-"names": ["HTMLVideoElement isa CanvasDrawable"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "HTMLVideoElement", "name": "video"}],
-"out": [{"type": "CanvasDrawable", "name": "video"}]
-}]
-},
-{
-"id": "HTMLCanvasElementIsaCanvasDrawable",
-"names": ["HTMLCanvasElement isa CanvasDrawable"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "HTMLCanvasElement", "name": "canvas"}],
-"out": [{"type": "CanvasDrawable", "name": "canvas"}]
-}]
-},
-{
-"id": "CanvasDrawableIsaUserOutput",
-"names": ["CanvasDrawable isa UserOutput"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "CanvasDrawable", "name": "canvas"}],
-"out": [{"type": "UserOutput", "name": "canvas"}]
-}]
-},
-{
-"id": "HTMLTextAreaElementIsaUserOutput",
-"names": ["HTMLTextAreaElement isa UserOutput"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "HTMLTextAreaElement", "name": "element"}],
-"out": [{"type": "UserOutput", "name": "element"}]
-}]
-},
-{
-"id": "DrawImageToCanvas",
-"names": ["Draw image to canvas"],
-"cost": 4,
-"templates": [{
-"code": "var canvas = document.createElement(\"canvas\");\ncanvas.style.width = canvas.width = $image.width;\ncanvas.style.height = canvas.height = $image.height;\nvar canvasContext = canvas.getContext(\"2d\");\ncanvasContext.drawImage($image, 0, 0);\ndocument.body.appendChild(canvas);\n$next",
-"in": [{"type": "CanvasDrawable", "name": "image"}],
-"out": [{"type": "HTMLCanvasElement", "name": "canvas"}]
-}]
-},
-{
-"id": "inputFileChangeEvent",
-"doc": "https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Specification",
-"names": ["input file change event", "<input type='file'>", "file input"],
-"templates": [{
-"in": [{"type": "UserInput", "name": "userInput"}],
-"out": [{"type": "File", "name": "file"}],
-"code": "var inputFile = document.createElement(\"input\");\ninputFile.type = \"file\";\ninputFile.addEventListener(\"change\", function(event) {\n\tvar file = inputFile.files[0];\n\t$next\n});\ndocument.body.appendChild(inputFile);\n"
-}]},
-{
-"id": "fileDragDrop",
-"doc": "http://www.html5rocks.com/en/tutorials/file/dndfiles/",
-"cost": 2,
-"names": ["drag and drop file", "file drag drop"],
-"templates": [{
-"in": [{"type": "UserInput", "name": "userInput"}],
-"out": [{"type": "File", "name": "file"}],
-"code": "var dropElement = document.createElement(\"div\");\ndropElement.textContent = \"Drag and drop here.\";\ndropElement.style.height = \"100px\";\ndropElement.style.border = \"dashed 2px black\";\ndropElement.addEventListener(\"drop\", function (event) {\n\tif (event.stopPropagation) {\n\t\tevent.stopPropagation();\n\t}\n\tevent.preventDefault();\n\n\tvar file = event.dataTransfer.files[0];\n\t$next\n});\ndropElement.addEventListener(\"dragover\", function (event) {\n\tevent.preventDefault();\n\tevent.dataTransfer.dropEffect = 'copy';\n\treturn false;\n});\ndocument.body.appendChild(dropElement);\n"
-}]},
-{
-"id": "inputText",
-"names": ["input type='text'", "text input"],
-"templates": [{
-"in": [{"type": "UserInput", "name": "userInput"}],
-"out": [{"type": "string", "name": "input"}],
-"code": "var inputElement = document.createElement(\"input\");\ninputElement.type = \"text\";\ninputElement.addEventListener(\"blur\", function (event) {\n\tvar input = inputElement.value;\n\t$next\n});\ndocument.body.appendChild(inputElement);\n"
-}]},
-{
-"id": "inputUrl",
-"names": ["input type='url'", "url input"],
-"templates": [{
-"in": [{"type": "UserInput", "name": "userInput"}],
-"out": [{"type": "url", "name": "input"}],
-"code": "var inputElement = document.createElement(\"input\");\ninputElement.type = \"url\";\ninputElement.addEventListener(\"blur\", function (event) {\n\tvar input = inputElement.value;\n\t$next\n});\ndocument.body.appendChild(inputElement);\n"
-}]},
-{
-"id": "textArea",
-"names": ["text area", "textarea"],
-"templates": [{
-"in": [{"type": "string", "name": "value"}],
-"out": [{"type": "HTMLTextAreaElement", "name": "element"}],
-"code": "var $element = document.createElement(\"textarea\");\nelement.textContent = $value;\nelement.style.width = '100%';\nelement.style.height = '7em';\ndocument.body.appendChild(element);\n$next"
-}]},
-{
-"id": "FileReader.readAsArrayBuffer",
-"doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsArrayBuffer",
-"names": ["readAsArrayBuffer", "FileReader.readAsArrayBuffer"],
-"cost": 2,
-"templates": [{
-"in": [{"type": "Blob", "name": "blob"}],
-"out": [{"type": "ArrayBuffer", "name": "arrayBuffer"}],
-"code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $arrayBuffer = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsArrayBuffer($blob);\n"
-}]},
-{
-"id": "FileReader.readAsDataURL",
-"doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsDataURL",
-"names": ["readAsDataURL", "FileReader.readAsDataURL"],
-"cost": 4,
-"templates": [{
-"in": [{"type": "Blob", "name": "blob"}],
-"out": [{"type": "DataUrl", "name": "dataUrl"}],
-"code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $dataUrl = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsDataURL($blob);\n"
-}]},
-{
-"id": "FileReader.readAsText",
-"doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsText",
-"names": ["readAsText", "FileReader.readAsText"],
-"cost": 2,
-"templates": [{
-"in": [{"type": "Blob", "name": "blob"}],
-"out": [{"type": "string", "name": "str"}],
-"code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $str = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsText($blob);\n"
-}]},
-{
-"id": "createElementImg",
-"names": ["Create image element", "document.createElement(\"img\")", "new Image()"],
-"cost": 2,
-"templates": [{
-"in": [{"type": "url", "name": "imageUrl"}],
-"out": [{"type": "HTMLImageElement", "name": "image"}],
-"code": "var $image = document.createElement(\"img\");\nimage.addEventListener(\"load\", function() {\n\tdocument.body.appendChild(image);\n\t$next\n});\nimage.addEventListener(\"error\", function() { console.error(\"image load error\"); });\nimage.src = $imageUrl;\n"
-}]},
-{
-    "id": "decodeURIComponent",
-    "names": ["decodeURIComponent"],
-    "cost": 1,
-    "templates": [{
-        "in": [{"type": "percent-encoded string", "name": "percentEncodedString"}],
-        "out": [{"type": "string", "name": "value"}],
-        "code": "var $value = decodeURIComponent($percentEncodedString);\n$next"
+    "id": "common",
+    "functions": [{
+        "id": "FileIsaBlob",
+        "names": ["File isa Blob"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "File", "name": "file" }],
+            "out": [{ "type": "Blob", "name": "file" }]
+        }]
+    }, {
+        "id": "HttpUrlIsaUrl",
+        "names": ["HttpUrl isa url"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "HttpUrl", "name": "httpUrl" }],
+            "out": [{ "type": "url", "name": "httpUrl" }]
+        }]
+    }, {
+        "id": "HttpsUrlIsaUrl",
+        "names": ["HttpsUrl isa url"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "HttpsUrl", "name": "httpsUrl" }],
+            "out": [{ "type": "url", "name": "httpsUrl" }]
+        }]
+    }, {
+        "id": "DataUrlIsaUrl",
+        "names": ["DataUrl isa url"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "DataUrl", "name": "dataUrl" }],
+            "out": [{ "type": "url", "name": "dataUrl" }]
+        }]
+    }, {
+        "id": "BlobUrlIsaUrl",
+        "names": ["BlobUrl isa url"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "BlobUrl", "name": "blobUrl" }],
+            "out": [{ "type": "url", "name": "blobUrl" }]
+        }]
+    }, {
+        "id": "PercentEncodedStringIsaString",
+        "names": ["percent-encoded string isa string"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "percent-encoded string", "name": "value" }],
+            "out": [{ "type": "string", "name": "value" }]
+        }]
+    }, {
+        "id": "Base64EncodedStringIsaString",
+        "names": ["base64 encoded string isa string"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "base64 encoded string", "name": "value" }],
+            "out": [{ "type": "string", "name": "value" }]
+        }]
+    }, {
+        "id": "UrlIsaString",
+        "names": ["url isa string"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "url", "name": "url" }],
+            "out": [{ "type": "string", "name": "url" }]
+        }]
+    }, {
+        "id": "HttpUrlIsaXhrUrl",
+        "names": ["HttpUrl isa XhrUrl"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "HttpUrl", "name": "httpUrl" }],
+            "out": [{ "type": "XhrUrl", "name": "httpUrl" }]
+        }]
+    }, {
+        "id": "HttpsUrlIsaXhrUrl",
+        "names": ["HttpsUrl isa XhrUrl"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "HttpsUrl", "name": "httpsUrl" }],
+            "out": [{ "type": "XhrUrl", "name": "httpsUrl" }]
+        }]
+    }, {
+        "id": "XMLHttpRequestString",
+        "names": ["XHR string", "XMLHttpRequest string response"],
+        "cost": 2,
+        "templates": [{
+            "code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar value = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
+            "in": [{ "type": "XhrUrl", "name": "url" }],
+            "out": [{ "type": "string", "name": "value" }]
+        }]
+    }, {
+        "id": "XMLHttpRequestBlob",
+        "names": ["XHR Blob", "XMLHttpRequest Blob response"],
+        "cost": 2,
+        "templates": [{
+            "code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"blob\";\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar blob = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
+            "in": [{ "type": "XhrUrl", "name": "url" }],
+            "out": [{ "type": "Blob", "name": "blob" }]
+        }]
+    }, {
+        "id": "XMLHttpRequestArrayBuffer",
+        "names": ["XHR ArrayBuffer", "XMLHttpRequest ArrayBuffer response"],
+        "cost": 2,
+        "templates": [{
+            "code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"arraybuffer\";\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar arrayBuffer = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
+            "in": [{ "type": "XhrUrl", "name": "url" }],
+            "out": [{ "type": "ArrayBuffer", "name": "arrayBuffer" }]
+        }]
+    }, {
+        "id": "XMLHttpRequestDocument",
+        "names": ["XHR Document", "XMLHttpRequest Document response"],
+        "cost": 2,
+        "templates": [{
+            "code": "var xhr = new XMLHttpRequest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"document\";\nxhr.onload = fuction (eventInfo) {\n\tif (this.status == 200) {\n\t\tvar loadedDocument = this.response;\n\t\t$next\n\t}\n};\nxhr.send();\n",
+            "in": [{ "type": "XhrUrl", "name": "url" }],
+            "out": [{ "type": "Document", "name": "loadedDocument" }]
+        }]
+    }, {
+        "id": "HTMLImageElementIsaCanvasDrawable",
+        "names": ["HTMLImageElement isa CanvasDrawable"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "HTMLImageElement", "name": "image" }],
+            "out": [{ "type": "CanvasDrawable", "name": "image" }]
+        }]
+    }, {
+        "id": "HTMLVideoElementIsaCanvasDrawable",
+        "names": ["HTMLVideoElement isa CanvasDrawable"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "HTMLVideoElement", "name": "video" }],
+            "out": [{ "type": "CanvasDrawable", "name": "video" }]
+        }]
+    }, {
+        "id": "HTMLCanvasElementIsaCanvasDrawable",
+        "names": ["HTMLCanvasElement isa CanvasDrawable"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "HTMLCanvasElement", "name": "canvas" }],
+            "out": [{ "type": "CanvasDrawable", "name": "canvas" }]
+        }]
+    }, {
+        "id": "CanvasDrawableIsaUserOutput",
+        "names": ["CanvasDrawable isa UserOutput"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "CanvasDrawable", "name": "canvas" }],
+            "out": [{ "type": "UserOutput", "name": "canvas" }]
+        }]
+    }, {
+        "id": "HTMLTextAreaElementIsaUserOutput",
+        "names": ["HTMLTextAreaElement isa UserOutput"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "HTMLTextAreaElement", "name": "element" }],
+            "out": [{ "type": "UserOutput", "name": "element" }]
+        }]
+    }, {
+        "id": "DrawImageToCanvas",
+        "names": ["Draw image to canvas"],
+        "cost": 4,
+        "templates": [{
+            "code": "var canvas = document.createElement(\"canvas\");\ncanvas.style.width = canvas.width = $image.width;\ncanvas.style.height = canvas.height = $image.height;\nvar canvasContext = canvas.getContext(\"2d\");\ncanvasContext.drawImage($image, 0, 0);\ndocument.body.appendChild(canvas);\n$next",
+            "in": [{ "type": "CanvasDrawable", "name": "image" }],
+            "out": [{ "type": "HTMLCanvasElement", "name": "canvas" }]
+        }]
+    }, {
+        "id": "inputFileChangeEvent",
+        "doc": "https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Specification",
+        "names": ["input file change event", "<input type='file'>", "file input"],
+        "templates": [{
+            "in": [{ "type": "UserInput", "name": "userInput" }],
+            "out": [{ "type": "File", "name": "file" }],
+            "code": "var inputFile = document.createElement(\"input\");\ninputFile.type = \"file\";\ninputFile.addEventListener(\"change\", function(event) {\n\tvar file = inputFile.files[0];\n\t$next\n});\ndocument.body.appendChild(inputFile);\n"
+        }]
+    }, {
+        "id": "fileDragDrop",
+        "doc": "http://www.html5rocks.com/en/tutorials/file/dndfiles/",
+        "cost": 2,
+        "names": ["drag and drop file", "file drag drop"],
+        "templates": [{
+            "in": [{ "type": "UserInput", "name": "userInput" }],
+            "out": [{ "type": "File", "name": "file" }],
+            "code": "var dropElement = document.createElement(\"div\");\ndropElement.textContent = \"Drag and drop here.\";\ndropElement.style.height = \"100px\";\ndropElement.style.border = \"dashed 2px black\";\ndropElement.addEventListener(\"drop\", function (event) {\n\tif (event.stopPropagation) {\n\t\tevent.stopPropagation();\n\t}\n\tevent.preventDefault();\n\n\tvar file = event.dataTransfer.files[0];\n\t$next\n});\ndropElement.addEventListener(\"dragover\", function (event) {\n\tevent.preventDefault();\n\tevent.dataTransfer.dropEffect = 'copy';\n\treturn false;\n});\ndocument.body.appendChild(dropElement);\n"
+        }]
+    }, {
+        "id": "inputText",
+        "names": ["input type='text'", "text input"],
+        "templates": [{
+            "in": [{ "type": "UserInput", "name": "userInput" }],
+            "out": [{ "type": "string", "name": "input" }],
+            "code": "var inputElement = document.createElement(\"input\");\ninputElement.type = \"text\";\ninputElement.addEventListener(\"blur\", function (event) {\n\tvar input = inputElement.value;\n\t$next\n});\ndocument.body.appendChild(inputElement);\n"
+        }]
+    }, {
+        "id": "inputUrl",
+        "names": ["input type='url'", "url input"],
+        "templates": [{
+            "in": [{ "type": "UserInput", "name": "userInput" }],
+            "out": [{ "type": "url", "name": "input" }],
+            "code": "var inputElement = document.createElement(\"input\");\ninputElement.type = \"url\";\ninputElement.addEventListener(\"blur\", function (event) {\n\tvar input = inputElement.value;\n\t$next\n});\ndocument.body.appendChild(inputElement);\n"
+        }]
+    }, {
+        "id": "textArea",
+        "names": ["text area", "textarea"],
+        "templates": [{
+            "in": [{ "type": "string", "name": "value" }],
+            "out": [{ "type": "HTMLTextAreaElement", "name": "element" }],
+            "code": "var $element = document.createElement(\"textarea\");\nelement.textContent = $value;\nelement.style.width = '100%';\nelement.style.height = '7em';\ndocument.body.appendChild(element);\n$next"
+        }]
+    }, {
+        "id": "FileReader.readAsArrayBuffer",
+        "doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsArrayBuffer",
+        "names": ["readAsArrayBuffer", "FileReader.readAsArrayBuffer"],
+        "cost": 2,
+        "templates": [{
+            "in": [{ "type": "Blob", "name": "blob" }],
+            "out": [{ "type": "ArrayBuffer", "name": "arrayBuffer" }],
+            "code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $arrayBuffer = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsArrayBuffer($blob);\n"
+        }]
+    }, {
+        "id": "FileReader.readAsDataURL",
+        "doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsDataURL",
+        "names": ["readAsDataURL", "FileReader.readAsDataURL"],
+        "cost": 4,
+        "templates": [{
+            "in": [{ "type": "Blob", "name": "blob" }],
+            "out": [{ "type": "DataUrl", "name": "dataUrl" }],
+            "code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $dataUrl = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsDataURL($blob);\n"
+        }]
+    }, {
+        "id": "FileReader.readAsText",
+        "doc": "http://docs.webplatform.org/wiki/apis/file/FileReader/readAsText",
+        "names": ["readAsText", "FileReader.readAsText"],
+        "cost": 2,
+        "templates": [{
+            "in": [{ "type": "Blob", "name": "blob" }],
+            "out": [{ "type": "string", "name": "str" }],
+            "code": "var reader = new FileReader();\nreader.addEventListener(\"load\", function() {\n\tvar $str = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsText($blob);\n"
+        }]
+    }, {
+        "id": "createElementImg",
+        "names": ["Create image element", "document.createElement(\"img\")", "new Image()"],
+        "cost": 2,
+        "templates": [{
+            "in": [{ "type": "url", "name": "imageUrl" }],
+            "out": [{ "type": "HTMLImageElement", "name": "image" }],
+            "code": "var $image = document.createElement(\"img\");\nimage.addEventListener(\"load\", function() {\n\tdocument.body.appendChild(image);\n\t$next\n});\nimage.addEventListener(\"error\", function() { console.error(\"image load error\"); });\nimage.src = $imageUrl;\n"
+        }]
+    }, {
+        "id": "decodeURIComponent",
+        "names": ["decodeURIComponent"],
+        "cost": 1,
+        "templates": [{
+            "in": [{ "type": "percent-encoded string", "name": "percentEncodedString" }],
+            "out": [{ "type": "string", "name": "value" }],
+            "code": "var $value = decodeURIComponent($percentEncodedString);\n$next"
+        }]
+    }, {
+        "id": "encodeURIComponent",
+        "names": ["encodeURIComponent"],
+        "cost": 1,
+        "templates": [{
+            "in": [{ "type": "string", "name": "value" }],
+            "out": [{ "type": "percent-encoded string", "name": "percentEncodedString" }],
+            "code": "var $percentEncodedString = encodeURIComponent($value);\n$next"
+        }]
+    }, {
+        "id": "atob",
+        "names": ["atob"],
+        "cost": 1,
+        "templates": [{
+            "in": [{ "type": "base64 encoded string", "name": "base64EncodedString" }],
+            "out": [{ "type": "string", "name": "value" }],
+            "code": "var $value = atob($base64EncodedString);\n$next"
+        }]
+    }, {
+        "id": "btoa",
+        "names": ["btoa"],
+        "cost": 1,
+        "templates": [{
+            "in": [{ "type": "string", "name": "value" }],
+            "out": [{ "type": "base64 encoded string", "name": "base64EncodedString" }],
+            "code": "var $base64EncodedString = btoa($value);\n$next"
+        }]
+    }, {
+        "id": "imgSrc",
+        "names": ["img.src", "image source"],
+        "templates": [{
+            "in": [{ "type": "HTMLImageElement", "name": "image" }],
+            "out": [{ "type": "url", "name": "imageUrl" }],
+            "code": "var $imageUrl = $image.src;\n$next"
+        }]
+    }, {
+        "id": "createElementVideo",
+        "names": ["Create video element", "document.createElement(\"video\")", "new Video()"],
+        "cost": 2,
+        "templates": [{
+            "in": [{ "type": "url", "name": "videoUrl" }],
+            "out": [{ "type": "HTMLVideoElement", "name": "video" }],
+            "code": "var $video = document.createElement(\"video\");\nvideo.controls = \"true\";\nvideo.autoplay = \"true\";\nvideo.addEventListener(\"loadstart\", function() {\n\tdocument.body.appendChild(video);\n\t$next\n});\nvideo.addEventListener(\"error\", function() { console.error(\"video load error\"); });\nvideo.src = $videoUrl;\n"
+        }]
+    }, {
+        "id": "videoSrc",
+        "names": ["video.src", "video source"],
+        "templates": [{
+            "in": [{ "type": "HTMLVideoElement", "name": "video" }],
+            "out": [{ "type": "url", "name": "videoUrl" }],
+            "code": "var $videoUrl = $video.src;\n$next"
+        }]
+    }, {
+        "id": "createElementAudio",
+        "names": ["Create audio element", "document.createElement(\"audio\")", "new Audio()"],
+        "cost": 2,
+        "templates": [{
+            "in": [{ "type": "url", "name": "audioUrl" }],
+            "out": [{ "type": "HTMLAudioElement", "name": "audio" }],
+            "code": "var $audio = document.createElement(\"audio\");\naudio.controls = \"true\";\naudio.autoplay = \"true\";\naudio.addEventListener(\"loadstart\", function() {\n\tdocument.body.appendChild(audio);\n\t$next\n});\naudio.addEventListener(\"error\", function() { console.error(\"audio load error\"); });\naudio.src = $audioUrl;\n"
+        }]
+    }, {
+        "id": "audioSrc",
+        "names": ["audio.src", "audio source"],
+        "templates": [{
+            "in": [{ "type": "HTMLAudioElement", "name": "audio" }],
+            "out": [{ "type": "url", "name": "audioUrl" }],
+            "code": "var $audioUrl = $audio.src;\n$next"
+        }]
+    }, {
+        "id": "BlobCtor",
+        "names": ["Blob constructor", "Blob ctor"],
+        "templates": [{
+            "in": [{ "type": "ArrayBuffer", "name": "arrayBuffer" }],
+            "out": [{ "type": "Blob", "name": "blob" }],
+            "code": "var $blob = new Blob([$arrayBuffer], {type: 'application/octet-binary'});\n$next"
+        }, {
+            "in": [{ "type": "ArrayBufferView", "name": "arrayBufferView" }],
+            "out": [{ "type": "Blob", "name": "blob" }],
+            "code": "var $blob = new Blob([$arrayBufferView], {type: 'application/octet-binary'});\n$next"
+        }, {
+            "in": [{ "type": "string", "name": "value" }],
+            "out": [{ "type": "Blob", "name": "blob" }],
+            "code": "var $blob = new Blob([$value], {type: 'text/plain'});\n$next"
+        }]
+    }, {
+        "id": "createObjectURL",
+        "doc": "http://docs.webplatform.org/wiki/apis/file/URL/createObjectURL",
+        "names": ["createObjectURL", "window.URL.createObjectURL"],
+        "templates": [{
+            "in": [{ "type": "MSStream", "name": "blob" }],
+            "out": [{ "type": "BlobUrl", "name": "blobUrl" }],
+            "code": "var $blobUrl = URL.createObjectURL($blob);\n$next"
+        }]
+    }, {
+        "id": "revokeObjectURL",
+        "doc": "http://docs.webplatform.org/wiki/apis/file/URL/revokeObjectURL",
+        "names": ["revokeObjectURL", "window.URL.revokeObjectURL"],
+        "templates": [{
+            "in": [{ "type": "BlobUrl", "name": "blobUrl" }],
+            "out": [], 
+            "code": "URL.revokeObjectURL($blobUrl);\n$next" 
+        }] 
     }]
-},
-{
-    "id": "encodeURIComponent",
-    "names": ["encodeURIComponent"],
-    "cost": 1,
-    "templates": [{
-        "in": [{"type": "string", "name": "value"}],
-        "out": [{"type": "percent-encoded string", "name": "percentEncodedString"}],
-        "code": "var $percentEncodedString = encodeURIComponent($value);\n$next"
-    }]
-},
-{
-    "id": "atob",
-    "names": ["atob"],
-    "cost": 1,
-    "templates": [{
-        "in": [{"type": "base64 encoded string", "name": "base64EncodedString"}],
-        "out": [{"type": "string", "name": "value"}],
-        "code": "var $value = atob($base64EncodedString);\n$next"
-    }]
-},
-{
-    "id": "btoa",
-    "names": ["btoa"],
-    "cost": 1,
-    "templates": [{
-        "in": [{"type": "string", "name": "value"}],
-        "out": [{"type": "base64 encoded string", "name": "base64EncodedString"}],
-        "code": "var $base64EncodedString = btoa($value);\n$next"
-    }]
-},
-{
-"id": "imgSrc",
-"names": ["img.src", "image source"],
-"templates": [{
-"in": [{"type": "HTMLImageElement", "name": "image"}],
-"out": [{"type": "url", "name": "imageUrl"}],
-"code": "var $imageUrl = $image.src;\n$next"
-}]},
-{
-"id": "createElementVideo",
-"names": ["Create video element", "document.createElement(\"video\")", "new Video()"],
-"cost": 2,
-"templates": [{
-"in": [{"type": "url", "name": "videoUrl"}],
-"out": [{"type": "HTMLVideoElement", "name": "video"}],
-"code": "var $video = document.createElement(\"video\");\nvideo.controls = \"true\";\nvideo.autoplay = \"true\";\nvideo.addEventListener(\"loadstart\", function() {\n\tdocument.body.appendChild(video);\n\t$next\n});\nvideo.addEventListener(\"error\", function() { console.error(\"video load error\"); });\nvideo.src = $videoUrl;\n"
-}]},
-{
-"id": "videoSrc",
-"names": ["video.src", "video source"],
-"templates": [{
-"in": [{"type": "HTMLVideoElement", "name": "video"}],
-"out": [{"type": "url", "name": "videoUrl"}],
-"code": "var $videoUrl = $video.src;\n$next"
-}]},
-{
-"id": "createElementAudio",
-"names": ["Create audio element", "document.createElement(\"audio\")", "new Audio()"],
-"cost": 2,
-"templates": [{
-"in": [{"type": "url", "name": "audioUrl"}],
-"out": [{"type": "HTMLAudioElement", "name": "audio"}],
-"code": "var $audio = document.createElement(\"audio\");\naudio.controls = \"true\";\naudio.autoplay = \"true\";\naudio.addEventListener(\"loadstart\", function() {\n\tdocument.body.appendChild(audio);\n\t$next\n});\naudio.addEventListener(\"error\", function() { console.error(\"audio load error\"); });\naudio.src = $audioUrl;\n"
-}]},
-{
-"id": "audioSrc",
-"names": ["audio.src", "audio source"],
-"templates": [{
-"in": [{"type": "HTMLAudioElement", "name": "audio"}],
-"out": [{"type": "url", "name": "audioUrl"}],
-"code": "var $audioUrl = $audio.src;\n$next"
-}]},
-{
-"id": "BlobCtor",
-"names": ["Blob constructor", "Blob ctor"],
-"templates": [{
-"in": [{"type": "ArrayBuffer", "name": "arrayBuffer"}],
-"out": [{"type": "Blob", "name": "blob"}],
-"code": "var $blob = new Blob([$arrayBuffer], {type: 'application/octet-binary'});\n$next"
-},
-{
-"in": [{"type": "ArrayBufferView", "name": "arrayBufferView"}],
-"out": [{"type": "Blob", "name": "blob"}],
-"code": "var $blob = new Blob([$arrayBufferView], {type: 'application/octet-binary'});\n$next"
-},
-{
-"in": [{"type": "string", "name": "value"}],
-"out": [{"type": "Blob", "name": "blob"}],
-"code": "var $blob = new Blob([$value], {type: 'text/plain'});\n$next"
-}]},
-{
-"id": "createObjectURL",
-"doc": "http://docs.webplatform.org/wiki/apis/file/URL/createObjectURL",
-"names": ["createObjectURL", "window.URL.createObjectURL"],
-"templates": [{
-"in": [{"type": "MSStream", "name": "blob"}],
-"out": [{"type": "BlobUrl", "name": "blobUrl"}],
-"code": "var $blobUrl = URL.createObjectURL($blob);\n$next"
-}]},
-{
-"id": "revokeObjectURL",
-"doc": "http://docs.webplatform.org/wiki/apis/file/URL/revokeObjectURL",
-"names": ["revokeObjectURL", "window.URL.revokeObjectURL"],
-"templates": [{
-"in": [{"type": "BlobUrl", "name": "blobUrl"}],
-"out": [],
-"code": "URL.revokeObjectURL($blobUrl);\n$next"
-}]}
-]}
+}

@@ -1,108 +1,106 @@
 ﻿{
-"id": "ie11",
-"functions": [
-{
-"id": "XMLHttpRequestMSStream",
-"names": ["XHR MSStream", "XMLHttpRequest MSStream response"],
-"cost": 2,
-"templates": [{
-"code": "var xhr = new XMLHttpReqest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"ms-stream\";\nxhr.onreadystatechange = function () {\n\tif (xhr.readyState == xhr.LOADING) {\n\t\tvar stream = xhr.reponse;\n\t\t$next\n\t}\n}\nxhr.send();\n", 
-"in": [{"type": "XhrUrl", "name": "url"}],
-"out": [{"type": "Blob", "name": "blob"}]
-}]
-},
-{
-"id": "BlobIsaMSStream",
-"names": ["Blob isa MSStream"],
-"cost": 0,
-"templates": [{
-"code": "$next",
-"in": [{"type": "Blob", "name": "blob"}],
-"out": [{"type": "MSStream", "name": "blob"}]
-}]
-},
-{
-"id": "MSStreamReader.readAsArrayBuffer",
-"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh453234.aspx",
-"names": ["readAsArrayBuffer", "MSStreamReader.readAsArrayBuffer"],
-"cost": 2,
-"templates": [{
-"in": [{"type": "MSStream", "name": "stream"}],
-"out": [{"type": "ArrayBuffer", "name": "arrayBuffer"}],
-"code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $arrayBuffer = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsArrayBuffer($stream);\n"
-}]},
-{
-"id": "MSStreamReader.readAsBlob",
-"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh441166.aspx",
-"names": ["readAsBlob", "MSStreamReader.readAsBlob"],
-"cost": 2,
-"templates": [{
-"in": [{"type": "MSStream", "name": "stream"}],
-"out": [{"type": "Blob", "name": "blob"}],
-"code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $blob = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsBlob($stream);\n"
-}]},
-{
-"id": "MSStreamReader.readAsDataURL",
-"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh972609.aspx",
-"names": ["readAsDataURL", "MSStreamReader.readAsDataURL"],
-"cost": 4,
-"templates": [{
-"in": [{"type": "MSStream", "name": "stream"}],
-"out": [{"type": "DataUrl", "name": "dataUrl"}],
-"code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $dataUrl = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsDataURL($stream);\n"
-}]},
-{
-"id": "MSStreamReader.readAsText",
-"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh453241.aspx",
-"names": ["readAsText", "MSStreamReader.readAsText"],
-"cost": 2,
-"templates": [{
-"in": [{"type": "MSStream", "name": "stream"}],
-"out": [{"type": "string", "name": "str"}],
-"code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $str = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsText($stream);\n"
-}]}, 
-{
-"id": "msDetachStream",
-"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/dn251980.aspx",
-"names": ["msDetachStream", "MSStream.msDetachStream"],
-"templates": [{
-"in": [{"type": "MSStream", "name": "blob"}],
-"out": [{"type": "Windows.Storage.Streams.IInputStream", "name": "stream"}],
-"code": "var $stream = $blob.msDetachStream();\n$next"
-}]},
-{
-"id": "canvasMsToBlob",
-"names": ["canvas.msToBlob"],
-"templates": [{
-"in": [{"type": "HTMLCanvasElement", "name": "canvas"}],
-"out": [{"type": "Blob", "name": "blob"}],
-"code": "var $blob = $canvas.msToBlob();\n$next"
-}]},
-{
-"id": "createStreamFromInputStream",
-"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh767330.aspx",
-"names": ["createStreamFromInputStream", "window.MSApp.createStreamFromInputStream"],
-"templates": [{
-"in": [{"type": "Windows.Storage.Streams.IInputStream", "name": "winrtStream"}],
-"out": [{"type": "MSStream", "name": "stream"}],
-"code": "var $stream = MSApp.createStreamFromInputStream(\"image/png\", $winrtStream);\n$next"
-}]},
-{
-"id": "createBlobFromRandomAccessStream",
-"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh767329.aspx",
-"names": ["createBlobFromRandomAccessStream", "window.MSApp.createBlobFromRandomAccessStream"],
-"templates": [{
-"in": [{"type": "Windows.Storage.Streams.IRandomAccessStream", "name": "winrtStream"}],
-"out": [{"type": "Blob", "name": "blob"}],
-"code": "var $blob = MSApp.createBlobFromRandomAccessStream($winrtStream);\n$next"
-}]},
-{
-"id": "createFileFromStorageFile",
-"doc": "http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh831249.aspx",
-"names": ["createFileFromStorageFile", "window.MSApp.createFileFromStorageFile"],
-"templates": [{
-"in": [{"type": "Windows.Storage.StorageFile", "name": "winrtStorageFile"}],
-"out": [{"type": "File", "name": "file"}],
-"code": "var $file = MSApp.createFileFromStorageFile($winrtStorageFile);\n$next"
-}]}
-]}
+    "id": "ie11",
+    "functions": [{
+        "id": "XMLHttpRequestMSStream",
+        "names": ["XHR MSStream", "XMLHttpRequest MSStream response"],
+        "cost": 2,
+        "templates": [{
+            "code": "var xhr = new XMLHttpReqest();\nxhr.open(\"GET\", $url, true);\nxhr.responseType = \"ms-stream\";\nxhr.onreadystatechange = function () {\n\tif (xhr.readyState == xhr.LOADING) {\n\t\tvar stream = xhr.reponse;\n\t\t$next\n\t}\n}\nxhr.send();\n",
+            "in": [{ "type": "XhrUrl", "name": "url" }],
+            "out": [{ "type": "Blob", "name": "blob" }]
+        }]
+    }, {
+        "id": "BlobIsaMSStream",
+        "names": ["Blob isa MSStream"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "Blob", "name": "blob" }],
+            "out": [{ "type": "MSStream", "name": "blob" }]
+        }]
+    }, {
+        "id": "MSStreamReader.readAsArrayBuffer",
+        "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh453234.aspx",
+        "names": ["readAsArrayBuffer", "MSStreamReader.readAsArrayBuffer"],
+        "cost": 2,
+        "templates": [{
+            "in": [{ "type": "MSStream", "name": "stream" }],
+            "out": [{ "type": "ArrayBuffer", "name": "arrayBuffer" }],
+            "code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $arrayBuffer = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsArrayBuffer($stream);\n"
+        }]
+    }, {
+        "id": "MSStreamReader.readAsBlob",
+        "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh441166.aspx",
+        "names": ["readAsBlob", "MSStreamReader.readAsBlob"],
+        "cost": 2,
+        "templates": [{
+            "in": [{ "type": "MSStream", "name": "stream" }],
+            "out": [{ "type": "Blob", "name": "blob" }],
+            "code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $blob = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsBlob($stream);\n"
+        }]
+    }, {
+        "id": "MSStreamReader.readAsDataURL",
+        "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh972609.aspx",
+        "names": ["readAsDataURL", "MSStreamReader.readAsDataURL"],
+        "cost": 4,
+        "templates": [{
+            "in": [{ "type": "MSStream", "name": "stream" }],
+            "out": [{ "type": "DataUrl", "name": "dataUrl" }],
+            "code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $dataUrl = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsDataURL($stream);\n"
+        }]
+    }, {
+        "id": "MSStreamReader.readAsText",
+        "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/hh453241.aspx",
+        "names": ["readAsText", "MSStreamReader.readAsText"],
+        "cost": 2,
+        "templates": [{
+            "in": [{ "type": "MSStream", "name": "stream" }],
+            "out": [{ "type": "string", "name": "str" }],
+            "code": "var reader = new MSStreamReader();\nreader.addEventListener(\"load\", function() {\n\tvar $str = reader.result;\n\t$next\n});\nreader.addEventListener(\"error\", function() { console.error(reader.error); });\nreader.readAsText($stream);\n"
+        }]
+    }, {
+        "id": "msDetachStream",
+        "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/dn251980.aspx",
+        "names": ["msDetachStream", "MSStream.msDetachStream"],
+        "templates": [{
+            "in": [{ "type": "MSStream", "name": "blob" }],
+            "out": [{ "type": "Windows.Storage.Streams.IInputStream", "name": "stream" }],
+            "code": "var $stream = $blob.msDetachStream();\n$next"
+        }]
+    }, {
+        "id": "canvasMsToBlob",
+        "names": ["canvas.msToBlob"],
+        "templates": [{
+            "in": [{ "type": "HTMLCanvasElement", "name": "canvas" }],
+            "out": [{ "type": "Blob", "name": "blob" }],
+            "code": "var $blob = $canvas.msToBlob();\n$next"
+        }]
+    }, {
+        "id": "createStreamFromInputStream",
+        "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh767330.aspx",
+        "names": ["createStreamFromInputStream", "window.MSApp.createStreamFromInputStream"],
+        "templates": [{
+            "in": [{ "type": "Windows.Storage.Streams.IInputStream", "name": "winrtStream" }],
+            "out": [{ "type": "MSStream", "name": "stream" }],
+            "code": "var $stream = MSApp.createStreamFromInputStream(\"image/png\", $winrtStream);\n$next"
+        }]
+    }, {
+        "id": "createBlobFromRandomAccessStream",
+        "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh767329.aspx",
+        "names": ["createBlobFromRandomAccessStream", "window.MSApp.createBlobFromRandomAccessStream"],
+        "templates": [{
+            "in": [{ "type": "Windows.Storage.Streams.IRandomAccessStream", "name": "winrtStream" }],
+            "out": [{ "type": "Blob", "name": "blob" }],
+            "code": "var $blob = MSApp.createBlobFromRandomAccessStream($winrtStream);\n$next"
+        }]
+    }, {
+        "id": "createFileFromStorageFile",
+        "doc": "http://msdn.microsoft.com/en-us/library/windows/apps/xaml/hh831249.aspx",
+        "names": ["createFileFromStorageFile", "window.MSApp.createFileFromStorageFile"],
+        "templates": [{
+            "in": [{ "type": "Windows.Storage.StorageFile", "name": "winrtStorageFile" }],
+            "out": [{ "type": "File", "name": "file" }],
+            "code": "var $file = MSApp.createFileFromStorageFile($winrtStorageFile);\n$next"
+        }]
+    }]
+}
