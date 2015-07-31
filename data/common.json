@@ -374,5 +374,98 @@
             "out": [], 
             "code": "URL.revokeObjectURL($blobUrl);\n$next" 
         }] 
+    }, {
+        "id": "DataViewCtor",
+        "names": ["DataView constructor"],
+        "templates": [{
+            "in": [{ "type": "ArrayBuffer", "name": "arrayBuffer" }],
+            "out": [{ "type": "DataView", "name": "dataView" }], 
+            "code": "$dataView = new DataView($arrayBuffer);\n$next" 
+        }] 
+    }, {
+        "id": "DataViewBufferProperty",
+        "names": ["DataView.buffer"],
+        "templates": [{
+            "in": [{ "type": "DataView", "name": "dataView" }],
+            "out": [{ "type": "ArrayBuffer", "name": "arrayBuffer" }], 
+            "code": "$arrayBuffer = $dataView.buffer;\n$next" 
+        }] 
+    }, {
+        "id": "DataViewGetFloat64",
+        "names": ["DataView.getFloat64"],
+        "templates": [{
+            "in": [{ "type": "DataView", "name": "dataView" }],
+            "out": [{ "type": "number", "name": "value" }], 
+            "code": "var byteOffset = 0;\n$value = $dataView.getFloat64(byteOffset);\n$next" 
+        }] 
+    }, {
+        "id": "NumberToDecimalString",
+        "names": ["number toString decimal"],
+        "templates": [{
+            "in": [{ "type": "number", "name": "value" }],
+            "out": [{ "type": "decimal number string", "name": "string" }], 
+            "code": "var $string = $value.toString();\n$next" 
+        }] 
+    }, {
+        "id": "NumberToHexString",
+        "names": ["number toString hex"],
+        "templates": [{
+            "in": [{ "type": "number", "name": "value" }],
+            "out": [{ "type": "hex number string", "name": "string" }], 
+            "code": "var $string = $value.toString(16);\n$next" 
+        }] 
+    }, {
+        "id": "NumberToBinaryString",
+        "names": ["number toString binary"],
+        "templates": [{
+            "in": [{ "type": "number", "name": "value" }],
+            "out": [{ "type": "binary number string", "name": "string" }], 
+            "code": "var $string = $value.toString(2);\n$next" 
+        }] 
+    }, {
+        "id": "DecimalNumberStringIsaNumberString",
+        "names": ["decimal number string isa number string"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "decimal number string", "name": "value" }],
+            "out": [{ "type": "number string", "name": "value" }]
+        }]
+    }, {
+        "id": "HexNumberStringIsaNumberString",
+        "names": ["hex number string isa number string"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "hex number string", "name": "value" }],
+            "out": [{ "type": "number string", "name": "value" }]
+        }]
+    }, {
+        "id": "BinaryNumberStringIsaNumberString",
+        "names": ["binary number string isa number string"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "binary number string", "name": "value" }],
+            "out": [{ "type": "number string", "name": "value" }]
+        }]
+    }, {
+        "id": "NumberStringIsaString",
+        "names": ["number string isa string"],
+        "cost": 0,
+        "templates": [{
+            "code": "$next",
+            "in": [{ "type": "number string", "name": "value" }],
+            "out": [{ "type": "string", "name": "value" }]
+        }]
+    }, {
+        "id": "ParseNumberString",
+        "names": ["parseInt"],
+        "cost": 0,
+        "templates": [{
+            "in": [{ "type": "number string", "name": "string" }],
+            "out": [{ "type": "number", "name": "value" }],
+            "code": "$value = parseInt($string);\n$next"
+        }]
     }]
 }
